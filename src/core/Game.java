@@ -7,6 +7,7 @@ package core;
  */
 
 
+import Constructs.Blocks.OriginBlock;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -49,7 +50,7 @@ public class Game extends Canvas implements Runnable {
      * use this method to set starting objects etc
      */
     public void Setup() {
-         //add things to the world
+         this.addObject(new OriginBlock(100,100));
     }
 
     //core tick, tells all game Objects to tick
@@ -67,11 +68,12 @@ public class Game extends Canvas implements Runnable {
             return;
         }
         Graphics g = bs.getDrawGraphics();
-        g = (Graphics2D) g;
+        g = (Graphics2D)g;
+        Graphics2D g2d = (Graphics2D)g;
         g.setColor(Color.GREEN);
 
         this.renderBackGround(g);
-        handler.render(g);
+        handler.render(g2d);
         g.dispose();
 
         bs.show();

@@ -6,22 +6,36 @@
 package Constructs;
 
 import core.Coordinate;
-import java.util.ArrayList;
+import core.GameObject;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
 /**
  * Basic building block for all constructs
  * @author Joseph
  */
-public abstract class Block {
-    public static final int BLOCK_HEIGHT = 10, BLOCK_WIDTH = 10;
-    public Coordinate localCoord;    //X,Y about orgin block
-    public Coordinate AbsoluteCoord;    //X,Y relative to world
+public abstract class Block extends GameObject{
+    //Technical Fields
+    public static final int BLOCK_HEIGHT = 30, BLOCK_WIDTH = 30;
+    public BufferedImage sprite;  //visual representation
+    public Coordinate relativeLocation;    //X,Y about orgin block
     public boolean isOrgin;
-    public ArrayList<Block> connected = new ArrayList<>(); //blocks connected to this one
+    public Block[] connected = new Block[4];
     public Orientation orientation = Orientation.Up;
+    public Construct parent; //what construct this block is a part of
+    //Gameplay fields
+    public int health = 10;
+    public int initialHealth = 10;
+
+    public Block(int x, int y) {
+        super(x, y);
+    }
+    
     
     
     public void destroy(){
+        super.destroy();
         //TODO
     }
     
@@ -36,11 +50,35 @@ public abstract class Block {
      */
     public void Connect(int i, Block b){
         b.orientation = this.orientation; //orient them the same direction
-        
+        b.parent = this.parent;
+        parent.addBlock(b);
+        connected[i] = b;
         switch(i){
-            case 0:
-                
+            case 0: //connecting block to our top/ their bot
+                b.connected[2] = this;
                 break;
+            case 1:
+                b.connected[3] = this;
+                break;
+            case 2:
+                b.connected[0] = this;
+                break;
+            case 3: b.connected[1] = this;
         }
     }
+    //tick
+    public void tick(){
+        
+    }
+
+    /**
+     * renders the block on screen
+     * @param g
+     */
+    @Override
+    public void render(Graphics2D g){
+        g.setColor(Color.red);
+        g.fillRect(location.x - Block.BLOCK_WIDTH/2, location.y - Block.BLOCK_HEIGHT/2, Block.BLOCK_WIDTH, Block.BLOCK_HEIGHT);
+    }
+    
 }

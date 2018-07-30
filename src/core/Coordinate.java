@@ -17,4 +17,12 @@ public class Coordinate {
     public static double distanceBetween(Coordinate a, Coordinate b){
         return Math.sqrt(Math.pow((b.x-a.x), 2)+Math.pow(b.y-a.y, 2));
     }
+    
+    public Coordinate(){
+        
+    }
+    public Coordinate(int x, int y){
+        this.x = x;
+        this.y = y;
+    }
 }

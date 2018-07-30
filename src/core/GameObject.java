@@ -7,9 +7,7 @@ package core;
  */
 
 
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
+import java.awt.Graphics2D;
 import java.util.Iterator;
 
 /**
@@ -21,12 +19,8 @@ import java.util.Iterator;
  */
 public abstract class GameObject {
     /*  FIELDS  */
-    public BufferedImage[] spritesR;     //where we store our sprites for right direction
-    public BufferedImage[] spritesL;     //where we store the sprites for left direction
-    public BufferedImage[] spritesIdle;  //idle sprites
-    public int numFrames;               //number of frames in the animation            
-    public int toRender;
-    public int x , y, velX, velY, speed;       //X/Y coordinates and X/Y velocity
+    public int velX, velY, speed;       //X/Y coordinates and X/Y velocity
+    public Coordinate location = new Coordinate();    //X,Y relative to world
     public int width, height;                  //length and width
     public boolean isAlive = true;      
     public String name;                     //used to identify what kind of gameobject this is
@@ -36,26 +30,23 @@ public abstract class GameObject {
      * @param y 
      */
     public GameObject(int x, int y){
-        this.x = x;
-        this.y = y;
+        location.x = x;
+        location.y = y;
     }
     
     //every game tick, we update the coordinates based on velocity. at the end, clamp the coordinates to within the bounds of the world
     public void tick(){
         GOtick();
         for(int i=0; i < Math.abs(velX);i++){
-            if(velX<0)x--;
-            else if (velX>0)x++;
+            if(velX<0)location.x--;
+            else if (velX>0)location.x++;
         }
         for(int i=0; i < Math.abs(velY);i++){
-            if(velY<0)y--;
-            else if (velY>0)y++;
+            if(velY<0)location.y--;
+            else if (velY>0)location.y++;
         }
-        if(this.y >= Game.height-this.height/2){
-           collide(null);  //collide with the floor
-        }
-        x = Main.clamp(x, Game.width-width/2, 0);
-        y = Main.clamp(y, Game.height-height/2, 0);
+        location.x = Main.clamp(location.x, Game.width-width/2, 0);
+        location.y = Main.clamp(location.y, Game.height-height/2, 0);
     }
     
     /**
@@ -67,31 +58,8 @@ public abstract class GameObject {
      * this is run once a frame and contains code that puts the object on screen.
      * @param g 
      */
-    public void render(Graphics g){
-        try{
-       if(this.velX>=1){ //traveling right
-           if(toRender>=spritesR.length) toRender = 0;
-           BufferedImage frame = spritesR[toRender];
-           g.drawImage(frame, x-frame.getWidth()/2, y-frame.getHeight()/2, null); //draw sprite centered on our x/y coords
-       }else if(velY <= -1){ //traveling left
-           if(toRender>=spritesL.length) toRender = 0;
-            BufferedImage frame = spritesL[toRender];
-           g.drawImage(frame, x-frame.getWidth()/2, y-frame.getHeight()/2, null); //draw sprite centered on our x/y coords
-       }else{
-           if(toRender>=spritesIdle.length) toRender = 0;
-           BufferedImage frame = spritesIdle[toRender];
-           g.drawImage(frame, x-frame.getWidth()/2, y-frame.getHeight()/2, null); //draw sprite centered on our x/y coords
-       }
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
+    public abstract void render(Graphics2D g);
     
-    /**
-     * what happens when we collide with another game object, or with the floor(null)
-     * @param go what we collided with
-     */
-    public abstract void collide(GameObject go);
 
     /**
      * removes object from the game

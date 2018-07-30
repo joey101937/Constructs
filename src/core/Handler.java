@@ -7,8 +7,7 @@ package core;
  */
 
 
-import java.awt.Graphics;
-import static java.lang.Math.E;
+import java.awt.Graphics2D;
 import java.util.LinkedList;
 
 /**
@@ -19,7 +18,7 @@ public class Handler {
 
     public LinkedList<GameObject> storage = new LinkedList<>();
 
-    public void render(Graphics g) {
+    public void render(Graphics2D g) {
         for (GameObject go : storage) {
             go.render(g);
         }
