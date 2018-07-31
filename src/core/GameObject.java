@@ -62,7 +62,7 @@ public abstract class GameObject {
     
 
     /**
-     * removes object from the game
+     * removes object from the game handler
      */
     public void destroy() {
         isAlive = false;

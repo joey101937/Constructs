@@ -27,7 +27,8 @@ public abstract class Block extends GameObject{
     //Gameplay fields
     public int health = 10;
     public int initialHealth = 10;
-
+    public int armor = 0;
+    
     public Block(int x, int y) {
         super(x, y);
     }
@@ -36,6 +37,7 @@ public abstract class Block extends GameObject{
     
     public void destroy(){
         super.destroy();
+        parent.components.remove(this);
         //TODO
     }
     

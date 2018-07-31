@@ -7,7 +7,7 @@ package core;
  */
 
 
-import Constructs.Blocks.OriginBlock;
+import Constructs.Construct;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -50,7 +50,8 @@ public class Game extends Canvas implements Runnable {
      * use this method to set starting objects etc
      */
     public void Setup() {
-         this.addObject(new OriginBlock(100,100));
+         Construct c = new Construct(100,100);
+         this.addObject(c.orgin);
     }
 
     //core tick, tells all game Objects to tick
