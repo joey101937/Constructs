@@ -6,6 +6,7 @@
 package Constructs;
 
 import Constructs.Blocks.OriginBlock;
+import core.Coordinate;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
@@ -19,11 +20,12 @@ public class Construct {
     public Orientation orienation = Orientation.Up;
     public void addBlock(Block b){
         components.add(b);
+        b.parent=this;
     }
     
     public Construct(int x, int y){
         orgin = new OriginBlock(x,y);
-        components.add(orgin);
+        this.addBlock(orgin);
     }
     
     public void render(Graphics2D g){
@@ -36,6 +38,10 @@ public class Construct {
         for(Block b : components){
             b.tick();
         }
+    }
+    
+    public Coordinate getLocation(){
+     return orgin.location;
     }
     
 }

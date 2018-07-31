@@ -19,7 +19,7 @@ public abstract class Block extends GameObject{
     //Technical Fields
     public static final int BLOCK_HEIGHT = 30, BLOCK_WIDTH = 30;
     public BufferedImage sprite;  //visual representation
-    public Coordinate relativeLocation;    //X,Y about orgin block
+    public Coordinate relativeLocation = new Coordinate(0,0);    //X,Y about orgin block
     public boolean isOrgin;
     public Block[] connected = new Block[4];
     public Orientation orientation = Orientation.Up;
@@ -33,12 +33,37 @@ public abstract class Block extends GameObject{
         super(x, y);
     }
     
+    public Block(){
+        super(0,0);
+    }
+    
+    /**
+     * connection to use when adding a block straight to another block
+     * @param initialConnection block we attatch to
+     * @param side side of that other block we attach to
+     */
+    public Block(Block initialConnection, int side){
+        super(0,0);
+        initialConnection.Connect(side, this);
+    }
+    
     
     
     public void destroy(){
+        onDestruction();
         super.destroy();
         parent.components.remove(this);
-        //TODO
+        for(Block b : connected){
+            for(Block b2 : b.connected){
+                if(b2 == this){
+                    b2 = null;      //removes this from the connection of other blocks
+                }
+            }
+        }
+    }
+    
+    public void onDestruction(){
+        
     }
     
     /**
@@ -51,26 +76,43 @@ public abstract class Block extends GameObject{
      * 3 = leftside
      */
     public void Connect(int i, Block b){
+        if(b == this){
+            System.out.println("warning: trying to connect block to itself. " + name);
+            return;
+        }
         b.orientation = this.orientation; //orient them the same direction
-        b.parent = this.parent;
         parent.addBlock(b);
         connected[i] = b;
+        b.location = new Coordinate(this.location);
+        b.relativeLocation = new Coordinate(this.relativeLocation);
+        System.out.println("connecting " + b.name +" at " + location);
         switch(i){
-            case 0: //connecting block to our top/ their bot
+            case 0: //connecting block to our top
                 b.connected[2] = this;
+                b.location.y -= Block.BLOCK_HEIGHT;
+                b.relativeLocation.y -= Block.BLOCK_HEIGHT;
                 break;
-            case 1:
+            case 1: //to our right side
+                 b.location.x += Block.BLOCK_WIDTH;
+                b.relativeLocation.x += Block.BLOCK_WIDTH;
                 b.connected[3] = this;
                 break;
-            case 2:
+            case 2: //to our bot side
                 b.connected[0] = this;
+                b.location.y += Block.BLOCK_HEIGHT;
+                b.relativeLocation.y += Block.BLOCK_HEIGHT;
                 break;
-            case 3: b.connected[1] = this;
+            case 3: //to our left side
+                b.connected[1] = this;
+                b.location.x -= Block.BLOCK_WIDTH;
+                b.relativeLocation.x -= Block.BLOCK_WIDTH;
+                break;
         }
+        System.out.println("new location for connected block " + b.location);
     }
+
     //tick
-    public void tick(){
-        
+    public void tick() {
     }
 
     /**

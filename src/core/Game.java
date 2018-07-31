@@ -7,6 +7,7 @@ package core;
  */
 
 
+import Constructs.Blocks.ArmorBlock;
 import Constructs.Construct;
 import java.awt.Canvas;
 import java.awt.Color;
@@ -51,7 +52,16 @@ public class Game extends Canvas implements Runnable {
      */
     public void Setup() {
          Construct c = new Construct(100,100);
-         this.addObject(c.orgin);
+         handler.constructs.add(c);
+         ArmorBlock ab = new ArmorBlock();
+         c.orgin.Connect(0, ab);
+         
+          ArmorBlock ab3 = new ArmorBlock();
+         c.orgin.Connect(3, ab3);
+         
+         System.out.println("ab loc "  +ab.location);
+         System.out.println("ab relative loc " + ab.relativeLocation);
+         
     }
 
     //core tick, tells all game Objects to tick

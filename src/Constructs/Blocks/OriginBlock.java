@@ -15,6 +15,7 @@ public class OriginBlock extends Block{
     
     public OriginBlock(int x, int y) {
         super(x, y);
+        name = "origin block";
     }
     
 }

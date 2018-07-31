@@ -33,7 +33,7 @@ public class Handler {
         for (GameObject go : storage) {
             go.tick();
         }
-           for(Construct c : constructs){
+        for (Construct c : constructs) {
             c.tick();
         }
     }

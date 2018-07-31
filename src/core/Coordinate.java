@@ -18,11 +18,19 @@ public class Coordinate {
         return Math.sqrt(Math.pow((b.x-a.x), 2)+Math.pow(b.y-a.y, 2));
     }
     
-    public Coordinate(){
-        
+    public Coordinate(){ 
+    }
+    public Coordinate(Coordinate c){
+        x = c.x;
+        y = c.y;
     }
     public Coordinate(int x, int y){
         this.x = x;
         this.y = y;
+    }
+    
+    @Override
+    public String toString(){
+        return "("+x+","+y+")";
     }
 }
