@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class Construct {
     public ArrayList<Block> components = new ArrayList<Block>();
     public OriginBlock orgin;
-    public Orientation orienation = Orientation.Up;
+    public Orientation orientation = Orientation.Up;
     public void addBlock(Block b){
         components.add(b);
         b.parent=this;
@@ -44,4 +44,30 @@ public class Construct {
      return orgin.location;
     }
     
+    /**
+     * flips the ship virtically
+     */
+    public void flipVirtically(){
+        int axis = orgin.location.y;
+        for(Block b : components){
+            int formerY = b.location.y;
+            int newOffset = (formerY - axis) * -1;
+            b.location.y = axis + newOffset;
+            b.relativeLocation.y*=-1;
+            Block temp = b.connected[0];
+            b.connected[0] = b.connected[2];
+            b.connected[2]=temp; //topside attach and botside attach swap
+            if(b.orientation == Orientation.Up){
+                b.orientation = Orientation.Down;
+            }else{
+                b.orientation = Orientation.Up;
+            }
+        }
+        if (this.orientation == Orientation.Up) {
+            this.orientation = Orientation.Down;
+        } else {
+            this.orientation = Orientation.Up;
+        }
+    }
+
 }

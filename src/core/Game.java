@@ -59,9 +59,18 @@ public class Game extends Canvas implements Runnable {
           ArmorBlock ab3 = new ArmorBlock();
          c.orgin.Connect(3, ab3);
          
+         
          System.out.println("ab loc "  +ab.location);
          System.out.println("ab relative loc " + ab.relativeLocation);
          
+         System.out.println("flipping virt...");
+         c.flipVirtically();
+
+        System.out.println("ab loc " + ab.location);
+        System.out.println("ab relative loc " + ab.relativeLocation);
+        
+        ArmorBlock ab4 = new ArmorBlock();
+        ab.Connect(0, ab4);
     }
 
     //core tick, tells all game Objects to tick
