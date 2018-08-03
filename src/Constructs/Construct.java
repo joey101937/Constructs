@@ -7,6 +7,7 @@ package Constructs;
 
 import Constructs.Blocks.OriginBlock;
 import core.Coordinate;
+import core.Game;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
@@ -18,6 +19,8 @@ public class Construct {
     public ArrayList<Block> components = new ArrayList<Block>();
     public OriginBlock orgin;
     public Orientation orientation = Orientation.Up;
+    public int velX, velY; //velocity of construct
+    
     public void addBlock(Block b){
         components.add(b);
         b.parent=this;
@@ -36,12 +39,42 @@ public class Construct {
     
     public void tick(){
         for(Block b : components){
+            b.velX = velX;
+            b.velY = velY;
             b.tick();
         }
     }
     
     public Coordinate getLocation(){
      return orgin.location;
+    }
+    
+    
+    public void removeDetached() {
+        System.out.println("removing detached");
+        ArrayList<Block> approved = new ArrayList<>();
+        approved.add(orgin);
+        removalHelper(orgin, approved);
+        System.out.println("approved: " + approved.size());
+        components = approved;
+    }
+
+    private void removalHelper(Block start, ArrayList<Block> approved){
+        for(Block b : start.connected){
+            if(b==null)continue;
+            if(!approved.contains(b)){
+                approved.add(b);
+                removalHelper(b, approved);
+            }
+        }
+    }
+    
+    
+    //removes construct from game
+    public void destroy(){
+        System.out.println("destroy construct run");
+        
+        //TODO
     }
     
     /**

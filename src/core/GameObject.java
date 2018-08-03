@@ -36,27 +36,33 @@ public abstract class GameObject {
     
     //every game tick, we update the coordinates based on velocity. at the end, clamp the coordinates to within the bounds of the world
     public void tick(){
-        GOtick();
-        for(int i=0; i < Math.abs(velX);i++){
-            if(velX<0)location.x--;
-            else if (velX>0)location.x++;
-        }
-        for(int i=0; i < Math.abs(velY);i++){
-            if(velY<0)location.y--;
-            else if (velY>0)location.y++;
-        }
-        location.x = Main.clamp(location.x, Game.width-width/2, 0);
-        location.y = Main.clamp(location.y, Game.height-height/2, 0);
+        adjustPositionForVelocity();
     }
     
+    public void adjustPositionForVelocity() {
+        for (int i = 0; i < Math.abs(velX); i++) {
+            if (velX < 0) {
+                location.x--;
+            } else if (velX > 0) {
+                location.x++;
+            }
+        }
+        for (int i = 0; i < Math.abs(velY); i++) {
+            if (velY < 0) {
+                location.y--;
+            } else if (velY > 0) {
+                location.y++;
+            }
+        }
+        location.x = Main.clamp(location.x, Game.width - width / 2, 0);
+        location.y = Main.clamp(location.y, Game.height - height / 2, 0);
+    }
+
     /**
-     * this is the equivilant of the update method in unity. run once every frame.
-     */
-    public void GOtick(){};
-    
-    /**
-     * this is run once a frame and contains code that puts the object on screen.
-     * @param g 
+     * this is run once a frame and contains code that puts the object on
+     * screen.
+     *
+     * @param g
      */
     public abstract void render(Graphics2D g);
     

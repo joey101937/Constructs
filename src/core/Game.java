@@ -7,6 +7,7 @@ package core;
  */
 
 
+import Constructs.Block;
 import Constructs.Blocks.ArmorBlock;
 import Constructs.Construct;
 import java.awt.Canvas;
@@ -36,6 +37,8 @@ public class Game extends Canvas implements Runnable {
     public Window window;
     public Input input;
     public static Game mainGame; //main game instance
+    public static Construct testConstruct;
+    public static Block testBlock;
     
     public Game() {
         mainGame = this;
@@ -51,26 +54,20 @@ public class Game extends Canvas implements Runnable {
      * use this method to set starting objects etc
      */
     public void Setup() {
-         Construct c = new Construct(100,100);
-         handler.constructs.add(c);
-         ArmorBlock ab = new ArmorBlock();
-         c.orgin.Connect(0, ab);
-         
-          ArmorBlock ab3 = new ArmorBlock();
-         c.orgin.Connect(3, ab3);
-         
-         
-         System.out.println("ab loc "  +ab.location);
-         System.out.println("ab relative loc " + ab.relativeLocation);
-         
-         System.out.println("flipping virt...");
-         c.flipVirtically();
-
-        System.out.println("ab loc " + ab.location);
-        System.out.println("ab relative loc " + ab.relativeLocation);
-        
-        ArmorBlock ab4 = new ArmorBlock();
-        ab.Connect(0, ab4);
+         testConstruct = new Construct(100,100);
+         handler.constructs.add(testConstruct);
+         testBlock = new ArmorBlock();
+         testConstruct.orgin.Connect(0, testBlock);
+         testBlock.name = "1";  
+         ArmorBlock other = new ArmorBlock();
+         testBlock.Connect(0, other);
+         ArmorBlock last  = other;
+         for(int i = 0; i < 3; i++){
+             ArmorBlock next = new ArmorBlock();
+             last.Connect(1, next);
+             last = next;
+         }
+       
     }
 
     //core tick, tells all game Objects to tick

@@ -32,7 +32,11 @@ public class Input implements KeyListener{
     public void keyPressed(KeyEvent e) {
         switch(e.getKeyCode()){
             case 'W':
-               //move player forward
+               Game.testConstruct.velX = 1;
+                break;
+            case 'Z':
+                Game.testBlock.destroy();
+                System.out.println(Game.testConstruct.components);
                 break;
         }
     }
@@ -41,7 +45,7 @@ public class Input implements KeyListener{
     public void keyReleased(KeyEvent e) {
          switch (e.getKeyCode()) {
             case 'W':
-                //stop moving player
+               Game.testConstruct.velX = 0;
                 break;
         }
     }

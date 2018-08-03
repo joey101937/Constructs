@@ -10,6 +10,8 @@ import core.GameObject;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Basic building block for all constructs
@@ -18,7 +20,7 @@ import java.awt.image.BufferedImage;
 public abstract class Block extends GameObject{
     //Technical Fields
     public static final int BLOCK_HEIGHT = 30, BLOCK_WIDTH = 30;
-    public BufferedImage sprite;  //visual representation
+    public Map<Orientation,BufferedImage> sprite = new HashMap<Orientation,BufferedImage>();  //visual representation
     public Coordinate relativeLocation = new Coordinate(0,0);    //X,Y about orgin block
     public boolean isOrgin;
     public Block[] connected = new Block[4];
@@ -49,17 +51,23 @@ public abstract class Block extends GameObject{
     
     
     
-    public void destroy(){
+    @Override
+    public synchronized void destroy(){
         onDestruction();
         super.destroy();
         parent.components.remove(this);
         for(Block b : connected){
-            for(Block b2 : b.connected){
-                if(b2 == this){
-                    b2 = null;      //removes this from the connection of other blocks
+            if(b==null)continue;
+            for(int i = 0; i<4; i++){
+                if(b.connected[i]==null)continue;
+                if(b.connected[i] == this){
+                    System.out.println("removing self from connection of " + b.name);
+                    b.connected[i] = null;      //removes this from the connection of other blocks
                 }
             }
+            b=null;
         }
+        if(parent!=null)parent.removeDetached();
     }
     
     public void onDestruction(){
@@ -117,6 +125,7 @@ public abstract class Block extends GameObject{
 
     //tick
     public void tick() {
+        adjustPositionForVelocity();
     }
 
     /**
