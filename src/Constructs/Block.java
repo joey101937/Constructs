@@ -46,7 +46,7 @@ public abstract class Block extends GameObject{
      */
     public Block(Block initialConnection, int side){
         super(0,0);
-        initialConnection.Connect(side, this);
+        initialConnection.connect(side, this);
     }
     
     
@@ -83,7 +83,7 @@ public abstract class Block extends GameObject{
      * 2 = botside
      * 3 = leftside
      */
-    public void Connect(int i, Block b){
+    public void connect(int i, Block b){
         if(b == this){
             System.out.println("warning: trying to connect block to itself. " + name);
             return;
@@ -121,6 +121,46 @@ public abstract class Block extends GameObject{
                 break;
         }
         System.out.println("new location for connected block " + b.location);
+        b.connectSurrounding();
+    }
+
+    /**
+     * attempts to attach block to surrounding blocks of its construct, if able
+     * based on position
+     */
+    public void connectSurrounding(){
+        
+        for(Block b : parent.components){
+            boolean alreadyConnected = false;
+            for(Block c : connected){
+                if(b==c){
+                    alreadyConnected = true;
+                    System.out.println("already connected");
+                    break;
+                }
+            }
+            if(alreadyConnected)continue;
+            if(b.relativeLocation.x + Block.BLOCK_WIDTH == relativeLocation.x && b.relativeLocation.y == relativeLocation.y) {
+                //left of us
+                b.connected[1]=this;
+                connected[3]=b;
+            }
+            if (b.relativeLocation.x - Block.BLOCK_WIDTH == relativeLocation.x && b.relativeLocation.y == relativeLocation.y) {
+                //right of us
+                b.connected[3] =this;
+                connected[1]=b;
+            }
+            if (b.relativeLocation.y + Block.BLOCK_HEIGHT == relativeLocation.y && b.relativeLocation.x == relativeLocation.x) {
+                //below us
+                b.connected[0] = this;
+                connected[2]=b;
+            }
+            if (b.relativeLocation.y - Block.BLOCK_HEIGHT == relativeLocation.y && b.relativeLocation.x == relativeLocation.x) {
+                //above us
+                b.connected[2] = this;
+                connected[0]= b;
+            }
+        }
     }
 
     //tick
@@ -136,6 +176,15 @@ public abstract class Block extends GameObject{
     public void render(Graphics2D g){
         g.setColor(Color.red);
         g.fillRect(location.x - Block.BLOCK_WIDTH/2, location.y - Block.BLOCK_HEIGHT/2, Block.BLOCK_WIDTH, Block.BLOCK_HEIGHT);
+        renderLinks(g);
     }
-    
+    public void renderLinks(Graphics2D g){
+        Color original = g.getColor();
+        g.setColor(Color.BLACK);
+        for(Block b : this.connected){
+            if(b==null)continue;
+            g.drawLine(location.x, location.y, b.location.x, b.location.y);
+        }
+        g.setColor(original);
+    }
 }

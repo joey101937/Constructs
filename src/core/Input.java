@@ -7,6 +7,7 @@ package core;
  */
 
 
+import Constructs.Blocks.ArmorBlock;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -30,13 +31,36 @@ public class Input implements KeyListener{
 
     @Override
     public void keyPressed(KeyEvent e) {
+        ArmorBlock next;
         switch(e.getKeyCode()){
             case 'W':
-               Game.testConstruct.velX = 1;
+               Game.testConstruct.velY = -1;
+                break;
+            case 'S':
+                Game.testConstruct.velY = 1;
                 break;
             case 'Z':
-                Game.testBlock.destroy();
-                System.out.println(Game.testConstruct.components);
+                Game.testConstruct.orgin.connected[0].destroy();
+                break;
+            case 'T': //connect up of last one
+                 next = new ArmorBlock();
+                Game.testBlock.connect(0, next);
+                Game.testBlock = next;
+                break;
+             case 'Y': //right of last
+                next = new ArmorBlock();
+                Game.testBlock.connect(1, next);
+                Game.testBlock = next;
+                break;
+            case 'H': //left of last
+                next = new ArmorBlock();
+                Game.testBlock.connect(3, next);
+                Game.testBlock = next;
+                break;
+            case 'G': //below of last
+                next = new ArmorBlock();
+                Game.testBlock.connect(2, next);
+                Game.testBlock = next;
                 break;
         }
     }
@@ -45,7 +69,8 @@ public class Input implements KeyListener{
     public void keyReleased(KeyEvent e) {
          switch (e.getKeyCode()) {
             case 'W':
-               Game.testConstruct.velX = 0;
+            case 'S':
+               Game.testConstruct.velY = 0;
                 break;
         }
     }

@@ -30,6 +30,7 @@ public class ArmorBlock extends Block{
     public void render(Graphics2D g){
          g.setColor(Color.gray);
         g.fillRect(location.x - Block.BLOCK_WIDTH/2, location.y - Block.BLOCK_HEIGHT/2, Block.BLOCK_WIDTH, Block.BLOCK_HEIGHT);
+        renderLinks(g);
     }
     
 }

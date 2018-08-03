@@ -12,7 +12,7 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 /**
- *
+ * Represents a structure made up of many blocks with a single important origin block
  * @author Joseph
  */
 public class Construct {
@@ -22,7 +22,7 @@ public class Construct {
     public int velX, velY; //velocity of construct
     
     public void addBlock(Block b){
-        components.add(b);
+        if(!components.contains(b))components.add(b);
         b.parent=this;
     }
     
@@ -49,16 +49,22 @@ public class Construct {
      return orgin.location;
     }
     
-    
+    /**
+     * removes blocks which have no possible block path to the orgin block
+     */
     public void removeDetached() {
         System.out.println("removing detached");
         ArrayList<Block> approved = new ArrayList<>();
         approved.add(orgin);
         removalHelper(orgin, approved);
         System.out.println("approved: " + approved.size());
-        components = approved;
+        components = approved;   //components now only has the approved blocks
     }
-
+    /**
+     * helper recursive method for removedDetached method
+     * @param start block we are starting from
+     * @param approved list of approved blocks
+     */
     private void removalHelper(Block start, ArrayList<Block> approved){
         for(Block b : start.connected){
             if(b==null)continue;
@@ -68,6 +74,7 @@ public class Construct {
             }
         }
     }
+    
     
     
     //removes construct from game

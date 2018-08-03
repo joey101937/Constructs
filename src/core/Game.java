@@ -23,7 +23,6 @@ import java.util.ConcurrentModificationException;
 /**
  * this is the part of the screen that you look at while playing and that
  * contains all gameObjects
- *
  * @author Joseph
  */
 public class Game extends Canvas implements Runnable {
@@ -57,16 +56,9 @@ public class Game extends Canvas implements Runnable {
          testConstruct = new Construct(100,100);
          handler.constructs.add(testConstruct);
          testBlock = new ArmorBlock();
-         testConstruct.orgin.Connect(0, testBlock);
+         testConstruct.orgin.connect(0, testBlock);
          testBlock.name = "1";  
-         ArmorBlock other = new ArmorBlock();
-         testBlock.Connect(0, other);
-         ArmorBlock last  = other;
-         for(int i = 0; i < 3; i++){
-             ArmorBlock next = new ArmorBlock();
-             last.Connect(1, next);
-             last = next;
-         }
+         
        
     }
 

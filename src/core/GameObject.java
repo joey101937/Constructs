@@ -54,6 +54,7 @@ public abstract class GameObject {
                 location.y++;
             }
         }
+        //make this construct level, not block level TODO
         location.x = Main.clamp(location.x, Game.width - width / 2, 0);
         location.y = Main.clamp(location.y, Game.height - height / 2, 0);
     }
