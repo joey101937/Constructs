@@ -39,6 +39,12 @@ public class Input implements KeyListener{
             case 'S':
                 Game.testConstruct.velY = 1;
                 break;
+            case 'A':
+                Game.testConstruct.velX = -1;
+                break;
+            case 'D':
+                Game.testConstruct.velX = 1;
+                break;
             case 'Z':
                 Game.testConstruct.orgin.connected[0].destroy();
                 break;
@@ -71,6 +77,10 @@ public class Input implements KeyListener{
             case 'W':
             case 'S':
                Game.testConstruct.velY = 0;
+                break;
+            case 'A':
+            case 'D':
+                Game.testConstruct.velX = 0;
                 break;
         }
     }

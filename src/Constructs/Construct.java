@@ -7,9 +7,10 @@ package Constructs;
 
 import Constructs.Blocks.OriginBlock;
 import core.Coordinate;
-import core.Game;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Represents a structure made up of many blocks with a single important origin block
@@ -20,6 +21,7 @@ public class Construct {
     public OriginBlock orgin;
     public Orientation orientation = Orientation.Up;
     public int velX, velY; //velocity of construct
+    Map<Coordinate, Block> relativeMap = new HashMap<Coordinate, Block>();
     
     public void addBlock(Block b){
         if(!components.contains(b))components.add(b);
