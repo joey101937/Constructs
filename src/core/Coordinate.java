@@ -33,4 +33,29 @@ public class Coordinate {
     public String toString(){
         return "("+x+","+y+")";
     }
+    @Override
+    public boolean equals(Object o){
+        try{
+            Coordinate other = (Coordinate)o;
+            return (x==other.x && y==other.y);
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 41 * hash + this.x;
+        hash = 41 * hash + this.y;
+        return hash;
+    }
+
+    
+    public static void main(String[] args){
+        Coordinate one = new Coordinate(1,1);
+        Coordinate two = new Coordinate(1,1);
+        System.out.println(one.equals(two));
+    }
 }

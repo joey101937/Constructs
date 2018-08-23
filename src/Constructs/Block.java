@@ -55,7 +55,7 @@ public abstract class Block extends GameObject{
     public synchronized void destroy(){
         onDestruction();
         super.destroy();
-        parent.components.remove(this);
+        if(parent!=null)parent.components.remove(this);
         for(Block b : connected){
             if(b==null)continue;
             for(int i = 0; i<4; i++){
@@ -83,21 +83,19 @@ public abstract class Block extends GameObject{
      * 2 = botside
      * 3 = leftside
      */
-    public void connect(int i, Block b){
+    public boolean connect(int i, Block b){
         if(b == this){
             System.out.println("warning: trying to connect block to itself. " + name);
-            return;
+            return false;
         }
         if(orientation == Orientation.Down && (i == 2 || i == 0)){
             if(i == 2) i = 0;
             else if (i==0) i = 2;
         }
-        b.orientation = this.orientation; //orient them the same direction
-        parent.addBlock(b);
-        connected[i] = b;
+        b.orientation = this.orientation; //orient them the same direction  
         b.location = new Coordinate(this.location);
         b.relativeLocation = new Coordinate(this.relativeLocation);
-        System.out.println("connecting " + b.name +" at " + location);
+        System.out.println("positioning block to connect at " + b.name +" at " + location);
         switch(i){
             case 0: //connecting block to our top
                 b.connected[2] = this;
@@ -120,8 +118,15 @@ public abstract class Block extends GameObject{
                 b.relativeLocation.x -= Block.BLOCK_WIDTH;
                 break;
         }
+        if(!parent.relativeLocationClear(b.relativeLocation)){
+            System.out.println("block in the way"); 
+            return false;
+        }
+        connected[i] = b;
+        parent.addBlock(b);
         System.out.println("new location for connected block " + b.location);
         b.connectSurrounding();
+        return true;
     }
 
     /**
@@ -187,4 +192,5 @@ public abstract class Block extends GameObject{
         }
         g.setColor(original);
     }
+    
 }

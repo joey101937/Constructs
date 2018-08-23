@@ -7,6 +7,7 @@ package core;
  */
 
 
+import Constructs.Block;
 import Constructs.Blocks.ArmorBlock;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -50,23 +51,35 @@ public class Input implements KeyListener{
                 break;
             case 'T': //connect up of last one
                  next = new ArmorBlock();
-                Game.testBlock.connect(0, next);
-                Game.testBlock = next;
+                if(Game.testBlock.connect(0, next)){
+                    Game.testBlock = next;
+                }else{
+                    next.destroy();
+                }
                 break;
-             case 'Y': //right of last
+             case 'H': //right of last
                 next = new ArmorBlock();
-                Game.testBlock.connect(1, next);
-                Game.testBlock = next;
+                if (Game.testBlock.connect(1, next)){
+                    Game.testBlock = next;
+                }else{
+                    next.destroy();
+                }
                 break;
-            case 'H': //left of last
+            case 'F': //left of last
                 next = new ArmorBlock();
-                Game.testBlock.connect(3, next);
-                Game.testBlock = next;
+                if(Game.testBlock.connect(3, next)){
+                      Game.testBlock = next;
+                } else{
+                    next.destroy();
+                }            
                 break;
             case 'G': //below of last
                 next = new ArmorBlock();
-                Game.testBlock.connect(2, next);
-                Game.testBlock = next;
+                if (Game.testBlock.connect(2, next)){
+                   Game.testBlock = next; 
+                }  else{
+                    next.destroy();
+                }              
                 break;
         }
     }
@@ -83,6 +96,11 @@ public class Input implements KeyListener{
                 Game.testConstruct.velX = 0;
                 break;
         }
+    }
+    
+    public Block getBlockAt(int x, int y){
+        return null;
+        //TODO
     }
 
 }

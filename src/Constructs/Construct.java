@@ -21,16 +21,32 @@ public class Construct {
     public OriginBlock orgin;
     public Orientation orientation = Orientation.Up;
     public int velX, velY; //velocity of construct
-    Map<Coordinate, Block> relativeMap = new HashMap<Coordinate, Block>();
+    
     
     public void addBlock(Block b){
         if(!components.contains(b))components.add(b);
         b.parent=this;
+        System.out.println("adding block at relative: " + b.relativeLocation);
     }
     
     public Construct(int x, int y){
         orgin = new OriginBlock(x,y);
         this.addBlock(orgin);
+    }
+    
+    /**
+     * Returns false if there is a block on the construct with a realative coord
+     * equal to the given coordinate
+     * @param c relative coordinate to check
+     * @return if the position is free
+     */
+    public boolean relativeLocationClear(Coordinate c){
+        for(Block b : components){
+            if(c.equals(b.relativeLocation)){
+                return false;
+            }
+        }
+        return true;
     }
     
     public void render(Graphics2D g){
