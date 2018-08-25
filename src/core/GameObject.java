@@ -20,7 +20,7 @@ import java.util.Iterator;
 public abstract class GameObject {
     /*  FIELDS  */
     public int velX, velY, speed;       //X/Y coordinates and X/Y velocity
-    public Coordinate location = new Coordinate();    //X,Y relative to world
+    public Coordinate location = new Coordinate(0,0);    //X,Y relative to world
     public int width, height;                  //length and width
     public boolean isAlive = true;      
     public String name;                     //used to identify what kind of gameobject this is

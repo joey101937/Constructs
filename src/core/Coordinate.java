@@ -18,8 +18,10 @@ public class Coordinate {
         return Math.sqrt(Math.pow((b.x-a.x), 2)+Math.pow(b.y-a.y, 2));
     }
     
-    public Coordinate(){ 
+    public double distanceFrom(Coordinate other){
+        return Math.sqrt(Math.pow((other.x-this.x), 2)+Math.pow(other.y-this.y, 2));
     }
+    
     public Coordinate(Coordinate c){
         x = c.x;
         y = c.y;
@@ -33,6 +35,8 @@ public class Coordinate {
     public String toString(){
         return "("+x+","+y+")";
     }
+    
+    
     @Override
     public boolean equals(Object o){
         try{
