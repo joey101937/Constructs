@@ -5,8 +5,10 @@
  */
 package Constructs;
 
-import core.Coordinate;
-import core.GameObject;
+import Core.Coordinate;
+import Core.Game;
+import Core.GameObject;
+import Core.Main;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -48,9 +50,9 @@ public abstract class Block extends GameObject{
         super(0,0);
         initialConnection.connect(side, this);
     }
+   
     
-    
-    
+
     @Override
     public synchronized void destroy(){
         onDestruction();
@@ -161,8 +163,7 @@ public abstract class Block extends GameObject{
                     connected[0] = b;
                 }
             }
-        }
-        
+        } 
     }
 
     //tick
@@ -180,9 +181,14 @@ public abstract class Block extends GameObject{
         g.fillRect(location.x - Block.BLOCK_WIDTH/2, location.y - Block.BLOCK_HEIGHT/2, Block.BLOCK_WIDTH, Block.BLOCK_HEIGHT);
         renderLinks(g);
     }
+    
+    /**
+     * draws line between center of this block and center of all connected blocks
+     * @param g graphics object to use
+     */
     public void renderLinks(Graphics2D g){
         Color original = g.getColor();
-        g.setColor(Color.BLACK);
+        g.setColor(Color.green);
         for(Block b : this.connected){
             if(b==null)continue;
             g.drawLine(location.x, location.y, b.location.x, b.location.y);

@@ -6,7 +6,9 @@
 package Constructs;
 
 import Constructs.Blocks.OriginBlock;
-import core.Coordinate;
+import Core.Coordinate;
+import Core.Game;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,13 +23,13 @@ public class Construct {
     public OriginBlock orgin;
     public Orientation orientation = Orientation.Up;
     public int velX, velY; //velocity of construct
-    
-    
+    public int topY, botY, rightX, leftX; //topmost block's y coord, bottom most block's y, rightmost block's x and leftmost block's x. used for bounds
     public void addBlock(Block b){
         if(!components.contains(b))components.add(b);
         b.parent=this;
         System.out.println("adding block at relative: " + b.relativeLocation);
         System.out.println("construct now has " + components.size() + " blocks");
+        updateBounds();
     }
     
     public Construct(int x, int y){
@@ -54,10 +56,39 @@ public class Construct {
         for(Block b : components){
             b.render(g);
         }
+       renderBounds(g);  
     }
     
-    public void tick(){
+    private void renderBounds(Graphics2D g){
+        g.setColor(Color.blue);
+        g.drawRect(orgin.location.x + leftX, orgin.location.y + topY, Math.abs(rightX) + Math.abs(leftX), Math.abs(topY) + Math.abs(botY));
+    }
+
+    public void tick() {
+        System.out.println(getCenter().x+rightX);
         for(Block b : components){
+            if(velX < 0){
+                if(getCenter().x+leftX<=0){
+                    realign();
+                   return;
+                }
+            } else if (velX > 0){
+                if (getCenter().x + rightX >= Game.width) {
+                    realign();
+                    return;
+                }
+            }
+            if(velY < 0 ){
+                if(getCenter().y + topY <= 0){
+                    realign();
+                    return;
+                }
+            }else if(velY > 0){
+                if(getCenter().y + botY >= Game.height){
+                    realign();
+                    return;
+                }
+            }
             b.velX = velX;
             b.velY = velY;
             b.tick();
@@ -78,6 +109,7 @@ public class Construct {
         removalHelper(orgin, approved);
         System.out.println("approved: " + approved.size());
         components = approved;   //components now only has the approved blocks
+        updateBounds();
     }
     /**
      * helper recursive method for removedDetached method
@@ -126,6 +158,67 @@ public class Construct {
             this.orientation = Orientation.Down;
         } else {
             this.orientation = Orientation.Up;
+        }
+    }
+    
+    /**
+     * changes the topmost x and y coords and left and rightmost coords to reflect the bounds of the entire construct
+     */
+    private void updateBounds(){
+        int top = 0, bot=0, left = 0, right = 0;
+        for(Block b : components){
+            if(b.relativeLocation.y < top){
+                //block is above current topmost coord
+                top=b.relativeLocation.y;
+            }else if (b.relativeLocation.y > bot){
+                //below Bottom
+                bot=b.relativeLocation.y;
+            }
+            if(b.relativeLocation.x > right){
+                right = b.relativeLocation.x;
+            }else if (b.relativeLocation.x < left){
+                left = b.relativeLocation.x;
+            }
+        }
+        top-=Block.BLOCK_HEIGHT/2;
+        bot+=Block.BLOCK_HEIGHT/2;
+        left-=Block.BLOCK_WIDTH/2;
+        right+=Block.BLOCK_WIDTH/2;
+        topY = top;
+        botY = bot ;
+        leftX = left ;
+        rightX = right ;
+    }
+    
+    /**
+     * returns an array of length 4 with the following int numbers
+     * 0- topmost point Y coord
+     * 1- leftmost point X coord
+     * 2- total width
+     * 3- total height
+     * @return 
+     */
+    public int[] getBounds(){
+        int[] output = new int[4];
+        output[0] = orgin.location.y + topY;
+        output[1] = orgin.location.x + leftX;
+        output[2] = Math.abs(rightX) + Math.abs(leftX);
+        output[3] = Math.abs(topY) + Math.abs(botY);
+        return output;
+    }
+    
+    
+    public Coordinate getCenter(){
+        return orgin.location;
+    }
+    
+    /**
+     * resets the position of all blocks relative to this construct
+     * useful if blocks were hit against somethjing and are slightly off position
+     */
+    public void realign(){
+        for(Block b : components){
+            b.location=Coordinate.sum(getCenter(), b.relativeLocation);
         }
     }
 
