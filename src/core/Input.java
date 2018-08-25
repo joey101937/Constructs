@@ -14,6 +14,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import javafx.scene.input.MouseButton;
 
 /**
  *
@@ -35,9 +36,16 @@ public class Input implements KeyListener, MouseListener{
 
     @Override
     public void mousePressed(MouseEvent e) {
-        attemptToBuild(e.getX(),e.getY());
+        if (getBlockAt(e.getX(), e.getY()) != null) {
+            System.out.println("you clicked on a block");
+            if(e.getButton() == 3){ //rightclick
+                getBlockAt(e.getX(), e.getY()).destroy();
+            }
+        }else if(e.getButton() == 1){
+             attemptToBuild(e.getX(), e.getY());
+        }
     }
-    
+
     /**
      * attempts to place a block at a given location and connect to nearest
      * construct
@@ -160,10 +168,6 @@ public class Input implements KeyListener, MouseListener{
         }
     }
     
-    public Block getBlockAt(int x, int y){
-        return null;
-        //TODO
-    }
     
     public static Block nearestBlock(int x, int y){
         Coordinate target = new Coordinate(x,y);
@@ -181,6 +185,27 @@ public class Input implements KeyListener, MouseListener{
         return closest;
     }
 
+   public static Block getBlockAt(Coordinate c){
+       return getBlockAt(c.x,c.y);
+   }
    
+   public static Block getBlockAt(int x, int y){
+       Coordinate target = new Coordinate(x,y);
+        Block closest = null;
+        double nearestDistance = 9999999;
+        for(Construct c : Game.handler.constructs){
+            for(Block b : c.components){
+                if(Coordinate.distanceBetween(target, b.location) < nearestDistance){
+                    nearestDistance = Coordinate.distanceBetween(target, b.location);
+                    closest = b;
+                }
+            }
+        }
+        if(nearestDistance > (Block.BLOCK_HEIGHT/2) * 1.25){
+            //return null if the click was farther from the center of the block than the block is wide
+            return null;
+        }
+        return closest;
+   }
 
 }

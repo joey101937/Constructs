@@ -27,6 +27,7 @@ public class Construct {
         if(!components.contains(b))components.add(b);
         b.parent=this;
         System.out.println("adding block at relative: " + b.relativeLocation);
+        System.out.println("construct now has " + components.size() + " blocks");
     }
     
     public Construct(int x, int y){
