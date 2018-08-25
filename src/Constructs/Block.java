@@ -134,38 +134,35 @@ public abstract class Block extends GameObject{
      * based on position
      */
     public void connectSurrounding(){
-        
         for(Block b : parent.components){
-            boolean alreadyConnected = false;
-            for(Block c : connected){
-                if(b==c){
-                    alreadyConnected = true;
-                    System.out.println("already connected");
-                    break;
+            if(b==null)continue;
+            if(b.relativeLocation.x == relativeLocation.x+Block.BLOCK_WIDTH){
+                //right column to us
+                if(b.relativeLocation.y == relativeLocation.y){
+                    //our right neighbor
+                    b.connected[3] = this;
+                    connected[1] = b;
+                }
+            }else if (b.relativeLocation.x == relativeLocation.x-Block.BLOCK_WIDTH){
+                //left column to us
+                if(b.relativeLocation.y == relativeLocation.y){
+                    //our left neighbor
+                    b.connected[1] = this;
+                    connected[3] = b;
+                }
+            }else if(b.relativeLocation.x == relativeLocation.x){
+                //same column as us
+                if(b.relativeLocation.y == relativeLocation.y + Block.BLOCK_HEIGHT){
+                    //lower neightbor
+                    b.connected[0] = this;
+                    connected[2] = b;
+                }else if (b.relativeLocation.y == relativeLocation.y - Block.BLOCK_HEIGHT){
+                    b.connected[2] = this;
+                    connected[0] = b;
                 }
             }
-            if(alreadyConnected)continue;
-            if(b.relativeLocation.x + Block.BLOCK_WIDTH == relativeLocation.x && b.relativeLocation.y == relativeLocation.y) {
-                //left of us
-                b.connected[1]=this;
-                connected[3]=b;
-            }
-            if (b.relativeLocation.x - Block.BLOCK_WIDTH == relativeLocation.x && b.relativeLocation.y == relativeLocation.y) {
-                //right of us
-                b.connected[3] =this;
-                connected[1]=b;
-            }
-            if (b.relativeLocation.y + Block.BLOCK_HEIGHT == relativeLocation.y && b.relativeLocation.x == relativeLocation.x) {
-                //below us
-                b.connected[0] = this;
-                connected[2]=b;
-            }
-            if (b.relativeLocation.y - Block.BLOCK_HEIGHT == relativeLocation.y && b.relativeLocation.x == relativeLocation.x) {
-                //above us
-                b.connected[2] = this;
-                connected[0]= b;
-            }
         }
+        
     }
 
     //tick
