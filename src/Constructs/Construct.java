@@ -11,8 +11,7 @@ import Core.Game;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ConcurrentModificationException;
 
 /**
  * Represents a structure made up of many blocks with a single important origin block
@@ -65,7 +64,6 @@ public class Construct {
     }
 
     public void tick() {
-        System.out.println(getCenter().x+rightX);
         for(Block b : components){
             if(velX < 0){
                 if(getCenter().x+leftX<=0){
@@ -130,9 +128,17 @@ public class Construct {
     
     //removes construct from game
     public void destroy(){
-        System.out.println("destroy construct run");
-        
-        //TODO
+        System.out.println("destroy construct");
+        for(Block b : components){
+            b.onDestruction();
+        }
+        while(Game.handler.constructs.contains(this)){
+            try{
+            Game.handler.constructs.remove(this);
+            }catch(ConcurrentModificationException cme){
+                System.out.println("cme while removing construct");
+            }
+        }
     }
     
     /**
@@ -207,7 +213,9 @@ public class Construct {
         return output;
     }
     
-    
+    /**
+     * returns the coordinate for the orgin of this construct
+     */
     public Coordinate getCenter(){
         return orgin.location;
     }

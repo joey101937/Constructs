@@ -18,4 +18,9 @@ public class OriginBlock extends Block{
         name = "origin block";
     }
     
+    @Override
+    public void destroy(){
+        parent.destroy();
+    }
+    
 }
