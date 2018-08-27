@@ -5,8 +5,9 @@
  */
 package Constructs;
 
+import Core.Game;
+import Core.Coordinate;
 import Constructs.Blocks.OriginBlock;
-import newCore.*;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;

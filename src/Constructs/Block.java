@@ -5,7 +5,8 @@
  */
 package Constructs;
 
-import newCore.*;
+import Core.GameObject;
+import Core.Coordinate;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
