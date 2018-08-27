@@ -1,4 +1,4 @@
-package Core;
+package newCore;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -7,7 +7,6 @@ package Core;
  */
 
 
-import Core.*;
 import Constructs.Block;
 import Constructs.Blocks.ArmorBlock;
 import Constructs.Construct;

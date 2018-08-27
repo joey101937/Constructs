@@ -1,4 +1,4 @@
-package Core;
+package newCore;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -7,7 +7,7 @@ package Core;
  */
 
 
-import Core.*;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;

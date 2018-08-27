@@ -1,4 +1,4 @@
-package Core;
+package newCore;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -7,7 +7,7 @@ package Core;
  */
 
 
-import Core.*;
+
 import Constructs.Construct;
 import java.awt.Graphics2D;
 import java.util.LinkedList;

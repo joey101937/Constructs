@@ -1,6 +1,5 @@
-package Core;
+package newCore;
 
-import Core.*;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
