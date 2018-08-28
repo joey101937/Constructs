@@ -8,8 +8,9 @@ package Core;
 
 
 import Constructs.Block;
-import Constructs.Blocks.ArmorBlock;
+import Constructs.Blocks.CannonBlock;
 import Constructs.Construct;
+import Constructs.Projectile;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -56,11 +57,12 @@ public class Game extends Canvas implements Runnable {
     public void Setup() {
          testConstruct = new Construct(100,100);
          handler.constructs.add(testConstruct);
-         testBlock = new ArmorBlock();
+         testBlock = new CannonBlock();
          testConstruct.orgin.connect(0, testBlock);
          testBlock.name = "1";  
          
-       
+         Projectile p = new Projectile(new Coordinate(300,300),new Coordinate(1,500));
+         handler.storage.add(p);
     }
 
     //core tick, tells all game Objects to tick
