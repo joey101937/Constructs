@@ -6,9 +6,9 @@
 package Constructs;
 
 import Core.Coordinate;
+import Core.DCoordinate;
 import Core.Game;
 import Core.GameObject;
-import Core.Main;
 import java.awt.Graphics2D;
 
 /**
@@ -18,23 +18,34 @@ import java.awt.Graphics2D;
 public class Projectile extends GameObject{
     public double slope; //projectile travels in a line with this slope 
     public int lifeTime = 500; //how many ticks this projectile has before it is destroyed automatically
-    
+    public double realVelX = 1.0;
+    public double realVelY = 0.0;
+    public DCoordinate realLocation;
     /**
      * Creates a projectile at a given coordinate, traveling at a specified angle
      */
     public Projectile(Coordinate spawnLocation, Coordinate targetPoint) {
-        //TODO: FIX THIS MESS
         super(spawnLocation.x, spawnLocation.y);
-        targetPoint = new Coordinate(targetPoint);
-        //targetPoint.x -= location.x;
-        //targetPoint.y -= location.y;
-        double s = location.y-targetPoint.y/location.x-targetPoint.x;
-        System.out.println((location.y-targetPoint.y) + " " + (location.x-targetPoint.x));
-        this.slope = Math.abs((double)(location.y-targetPoint.y)/(double)(location.x-targetPoint.x));
+        realLocation = new DCoordinate(location);
+        speed = 2;
+        double rise, run;
+        run = Math.abs(targetPoint.x - location.x);
+        rise = Math.abs(targetPoint.y - location.y);
+        System.out.println(rise + "/" + run);
+        double slope = rise / run;
         System.out.println("slope: " + slope);
-        speed = 1; //test value
-        velX = speed;
-        velY = (int)(slope * speed);
+        double travelVel = slope + 1;
+        double desiredSpeed = speed;
+        double delta = desiredSpeed / travelVel;
+        realVelX = speed * delta;
+        realVelY = speed * slope * delta;
+        if (targetPoint.x < location.x) {
+            realVelX *= -1;
+        }
+        if (targetPoint.y < location.y) {
+            realVelY *= -1;
+        }
+
     }
 
     @Override
@@ -44,8 +55,9 @@ public class Projectile extends GameObject{
     
     @Override
     public void adjustPositionForVelocity(){
-         location.x+=velX;
-         location.y+=velY;
+         realLocation.x+=realVelX;
+         realLocation.y+=realVelY;
+         location = new Coordinate(realLocation);
         if(location.x<0 || location.x>Game.width || location.y<0 || location.y>Game.height){
             destroy();
             //destroy projectile if it goes out of bounds

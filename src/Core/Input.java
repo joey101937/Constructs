@@ -10,11 +10,12 @@ package Core;
 import Constructs.Block;
 import Constructs.Blocks.ArmorBlock;
 import Constructs.Construct;
+import Constructs.Projectile;
+import static Core.Game.handler;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import javafx.scene.input.MouseButton;
 
 /**
  *
@@ -41,16 +42,22 @@ public class Input implements KeyListener, MouseListener{
             if(e.getButton() == 3){ //rightclick
                 getBlockAt(e.getX(), e.getY()).destroy();
             }
-        }else if(e.getButton() == 1){
-             attemptToBuild(e.getX(), e.getY());
+        } else if (e.getButton() == 1) {
+            if (!attemptToBuild(e.getX(), e.getY())) { 
+                //if we didnt build a block with the click, continue with projectile testing
+                System.out.println("projectile test");
+                Projectile p = new Projectile(new Coordinate(300, 300), new Coordinate(e.getX(), e.getY()));
+                handler.storage.add(p);
+            }
         }
     }
 
     /**
      * attempts to place a block at a given location and connect to nearest
      * construct
+     * @return weather or not a block was created and attached
      */
-    private static void attemptToBuild(int x, int y) {
+    private static boolean attemptToBuild(int x, int y) {
         Block closest = Input.nearestBlock(x, y);
         int requiredProximity = 60;
         if (Coordinate.distanceBetween(new Coordinate(x, y), closest.location) <= requiredProximity) {
@@ -58,24 +65,25 @@ public class Input implements KeyListener, MouseListener{
             if(y < closest.location.y - Block.BLOCK_HEIGHT/2 && x > closest.location.x-Block.BLOCK_WIDTH/2 && x < closest.location.x+Block.BLOCK_WIDTH/2){
                 System.out.println("build up");
                 closest.connect(0, new ArmorBlock());
-                return;
+                return true;
             }
             if (y > closest.location.y - Block.BLOCK_HEIGHT / 2 && x > closest.location.x - Block.BLOCK_WIDTH / 2 && x < closest.location.x + Block.BLOCK_WIDTH / 2) {
                 System.out.println("build down");
                 closest.connect(2, new ArmorBlock());
-                return;
+                return true;
             }
             if (x > closest.location.x + Block.BLOCK_HEIGHT / 2 && y > closest.location.y - Block.BLOCK_WIDTH / 2 && y < closest.location.y + Block.BLOCK_WIDTH / 2) {
                 System.out.println("build right");
                 closest.connect(1, new ArmorBlock());
-                return;
+                return true;
             }
             if (x < closest.location.x + Block.BLOCK_HEIGHT / 2 && y > closest.location.y - Block.BLOCK_WIDTH / 2 && y < closest.location.y + Block.BLOCK_WIDTH / 2) {
                 System.out.println("build left");
                 closest.connect(3, new ArmorBlock());
-                return;
+                return true;
             }
         }
+        return false;
     }
 
     @Override

@@ -10,6 +10,7 @@ package Core;
 
 import Constructs.Construct;
 import java.awt.Graphics2D;
+import java.util.ConcurrentModificationException;
 import java.util.LinkedList;
 
 /**
@@ -32,10 +33,18 @@ public class Handler {
 
     public void tick() {
         for (GameObject go : storage) {
-            go.tick();
+            try {
+                go.tick();
+            } catch (ConcurrentModificationException cme) {
+                cme.printStackTrace();
+            }
         }
         for (Construct c : constructs) {
-            c.tick();
+            try{
+                c.tick();
+            }catch(ConcurrentModificationException cme){
+              cme.printStackTrace();
+            }
         }
     }
 

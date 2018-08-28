@@ -61,13 +61,18 @@ public class Game extends Canvas implements Runnable {
          testConstruct.orgin.connect(0, testBlock);
          testBlock.name = "1";  
          
-         Projectile p = new Projectile(new Coordinate(300,300),new Coordinate(1,500));
-         handler.storage.add(p);
+        // Projectile p = new Projectile(new Coordinate(300,300),new Coordinate(400,100));
+        // handler.storage.add(p);
     }
 
     //core tick, tells all game Objects to tick
     private void tick() {
-        handler.tick();
+        try{
+            handler.tick();
+        }catch(ConcurrentModificationException cme){
+            cme.printStackTrace();
+        }
+        
     }
 
     //core render method, tells all game Objects to render
