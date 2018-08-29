@@ -151,6 +151,7 @@ public class Construct {
             int newOffset = (formerY - axis) * -1;
             b.location.y = axis + newOffset;
             b.relativeLocation.y*=-1;
+            System.out.println("new relative y of " + b.name + " is " + b.relativeLocation.y);
             Block temp = b.connected[0];
             b.connected[0] = b.connected[2];
             b.connected[2]=temp; //topside attach and botside attach swap
@@ -165,6 +166,7 @@ public class Construct {
         } else {
             this.orientation = Orientation.Up;
         }
+        updateBounds();
     }
     
     /**

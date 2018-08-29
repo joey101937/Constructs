@@ -173,6 +173,9 @@ public class Input implements KeyListener, MouseListener{
             case 'D':
                 Game.testConstruct.velX = 0;
                 break;
+            case 'Q':
+                Game.testConstruct.flipVirtically();
+                break;
         }
     }
     

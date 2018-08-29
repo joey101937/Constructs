@@ -88,10 +88,6 @@ public abstract class Block extends GameObject{
             System.out.println("warning: trying to connect block to itself. " + name);
             return false;
         }
-        if(orientation == Orientation.Down && (i == 2 || i == 0)){
-            if(i == 2) i = 0;
-            else if (i==0) i = 2;
-        }
         b.orientation = this.orientation; //orient them the same direction  
         b.location = new Coordinate(this.location);
         b.relativeLocation = new Coordinate(this.relativeLocation);
@@ -119,7 +115,7 @@ public abstract class Block extends GameObject{
                 break;
         }
         if(!parent.relativeLocationClear(b.relativeLocation)){
-            System.out.println("block in the way"); 
+            System.out.println("block in the way at r"+ b.relativeLocation); 
             return false;
         }
         connected[i] = b;

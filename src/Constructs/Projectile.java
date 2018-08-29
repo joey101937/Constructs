@@ -9,6 +9,7 @@ import Core.Coordinate;
 import Core.DCoordinate;
 import Core.Game;
 import Core.GameObject;
+import Core.Input;
 import java.awt.Graphics2D;
 
 /**
@@ -27,16 +28,16 @@ public class Projectile extends GameObject{
     public Projectile(Coordinate spawnLocation, Coordinate targetPoint) {
         super(spawnLocation.x, spawnLocation.y);
         realLocation = new DCoordinate(location);
-        speed = 2;
+        speed = 3;
         double rise, run;
         run = Math.abs(targetPoint.x - location.x);
         rise = Math.abs(targetPoint.y - location.y);
         System.out.println(rise + "/" + run);
         double slope = rise / run;
         System.out.println("slope: " + slope);
-        double travelVel = slope + 1;
-        double desiredSpeed = speed;
-        double delta = desiredSpeed / travelVel;
+        double travelVel = slope + 1; //how many units it would move per tick
+        double desiredSpeed = speed;  //how fast we want it to go
+        double delta = desiredSpeed / travelVel; //multiply by this to keep ratio of rise/run but constrain to desired speed
         realVelX = speed * delta;
         realVelY = speed * slope * delta;
         if (targetPoint.x < location.x) {
@@ -61,6 +62,16 @@ public class Projectile extends GameObject{
         if(location.x<0 || location.x>Game.width || location.y<0 || location.y>Game.height){
             destroy();
             //destroy projectile if it goes out of bounds
+        }
+    }
+    
+    @Override
+    public void tick(){
+        adjustPositionForVelocity();
+        Block b = Input.getBlockAt(location.x, location.y);
+        if(b !=null){
+            b.destroy();
+            this.destroy();
         }
     }
 }
