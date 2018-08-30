@@ -5,9 +5,11 @@
  */
 package Constructs;
 
+import Constructs.Blocks.ArmorBlock;
 import Core.Game;
 import Core.Coordinate;
 import Constructs.Blocks.OriginBlock;
+import Core.Main;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -38,6 +40,13 @@ public class Construct {
         this.addBlock(orgin);
     }
     
+    public static Construct generateRandomConstruct(Coordinate location, int numBlocks){
+        Construct output = new Construct(location.x,location.y);
+        while(output.components.size() < 30){
+             output.components.get(Main.generateRandom(0, output.components.size()-1)).connect(Main.generateRandom(0, 4), new ArmorBlock());
+         }
+        return output;
+    }
     /**
      * Returns false if there is a block on the construct with a realative coord
      * equal to the given coordinate
@@ -63,10 +72,10 @@ public class Construct {
     private void renderBounds(Graphics2D g){
         g.setColor(Color.blue);
         g.drawRect(orgin.location.x + leftX, orgin.location.y + topY, Math.abs(rightX) + Math.abs(leftX), Math.abs(topY) + Math.abs(botY));
+        g.draw(collisionBox);
     }
 
-    public void tick() {
-        boolean colliding = false;
+    public void tick() {boolean colliding = false;
         Construct collision = null;
         for(Construct c : Game.handler.constructs){
             if(c==this)continue;
@@ -96,6 +105,7 @@ public class Construct {
             }
         }
         adjustPositionForVelocity();
+        updateBounds();
     }
     
     public void adjustPositionForVelocity(){
@@ -245,8 +255,8 @@ public class Construct {
      */
     public int[] getBounds(){
         int[] output = new int[4];
-        output[0] = orgin.location.y + topY;
-        output[1] = orgin.location.x + leftX;
+        output[1] = orgin.location.y + topY;
+        output[0] = orgin.location.x + leftX;
         output[2] = Math.abs(rightX) + Math.abs(leftX);
         output[3] = Math.abs(topY) + Math.abs(botY);
         return output;

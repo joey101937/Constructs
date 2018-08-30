@@ -40,8 +40,15 @@ public class AnimatedSticker extends Sticker{
     }
 
     @Override
-    public void render(Graphics2D g) {
-        image = sprites[currentFrame];
+    public synchronized void render(Graphics2D g) {
+        try{
+            image = sprites[currentFrame];
+        }catch(ArrayIndexOutOfBoundsException e){
+            e.printStackTrace();
+            resetCurrentFrame();
+            image = sprites[currentFrame];
+        }
+        
         centerCoordinate(image);
         if (spawnLocation.x < 0 || spawnLocation.y < 0) {
             disable();     //if the coordinates are bad, dont render

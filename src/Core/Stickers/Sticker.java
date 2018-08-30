@@ -48,7 +48,7 @@ public class Sticker implements Runnable{
         }
     }
 
-    public void render(Graphics2D g) {
+    public synchronized void render(Graphics2D g) {
         centerCoordinate(image);
         if (spawnLocation.x < 0 || spawnLocation.y < 0) {
             disable();     //if the coordinates are bad, dont render

@@ -8,9 +8,9 @@ package Core;
 
 
 import Constructs.Block;
+import Constructs.Blocks.ArmorBlock;
 import Constructs.Blocks.CannonBlock;
 import Constructs.Construct;
-import Core.Stickers.AnimatedSticker;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -61,11 +61,13 @@ public class Game extends Canvas implements Runnable {
          testBlock = new CannonBlock();
          testConstruct.orgin.connect(0, testBlock);
          
-         Construct testConstruct2 = new Construct(500,300);
-         handler.constructs.add(testConstruct2);
+         //Construct testConstruct2 = new Construct(500,300);
+        // while(testConstruct2.components.size() < 30){
+        //   testConstruct2.components.get(Main.generateRandom(0, testConstruct2.components.size()-1)).connect(Main.generateRandom(0, 4), new ArmorBlock());
+        // }
+         handler.constructs.add(Construct.generateRandomConstruct(new Coordinate(500,300), 30));
 
-        // Sticker s = new Sticker(SpriteManager.test,new Coordinate(500,500),5000);
-         //AnimatedSticker as = new AnimatedSticker(SpriteManager.birdSequence,new Coordinate(500,500),5000);
+        
       
     }
 
