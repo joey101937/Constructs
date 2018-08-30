@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Core;
+package Core.Stickers;
 
+import Core.Coordinate;
+import Core.Main;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
@@ -26,7 +28,7 @@ public class AnimatedSticker extends Sticker{
     }
 
     @Override
-    protected void render(Graphics2D g) {
+    public void render(Graphics2D g) {
         image = sprites[currentFrame];
         if (location.x < 0 || location.y < 0) {
             disable();     //if the coordinates are bad, dont render

@@ -5,6 +5,7 @@
  */
 package Core;
 
+import Core.Stickers.Sticker;
 import java.awt.Graphics2D;
 import java.util.LinkedList;
 

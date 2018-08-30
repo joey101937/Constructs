@@ -7,6 +7,8 @@ package Core;
  */
 
 
+import Core.Stickers.AnimatedSticker;
+import Core.Stickers.Sticker;
 import Constructs.Block;
 import Constructs.Blocks.CannonBlock;
 import Constructs.Construct;

@@ -3,8 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Core;
+package Core.Stickers;
 
+import Core.Coordinate;
+import Core.Game;
+import Core.Main;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
@@ -28,7 +31,7 @@ public class Sticker implements Runnable{
         t.start();
     }
 
-    protected void render(Graphics2D g) {
+    public void render(Graphics2D g) {
         if (location.x < 0 || location.y < 0) {
             disable();     //if the coordinates are bad, dont render
         }
