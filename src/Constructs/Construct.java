@@ -42,7 +42,7 @@ public class Construct {
     
     public static Construct generateRandomConstruct(Coordinate location, int numBlocks){
         Construct output = new Construct(location.x,location.y);
-        while(output.components.size() < 30){
+        while(output.components.size() < numBlocks){
              output.components.get(Main.generateRandom(0, output.components.size()-1)).connect(Main.generateRandom(0, 4), new ArmorBlock());
          }
         return output;

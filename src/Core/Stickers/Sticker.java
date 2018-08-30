@@ -10,6 +10,7 @@ import Core.Game;
 import Core.Main;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.ConcurrentModificationException;
 
 /**
  * Renders an image at a location for a given length of time
@@ -62,6 +63,13 @@ public class Sticker implements Runnable{
 
     public void disable() {
         disabled = true;
+        while(Game.visHandler.stickers.contains(this)){
+            try{
+                Game.visHandler.stickers.remove(this);
+            }catch(ConcurrentModificationException cme){
+                cme.printStackTrace();
+            }
+        }
     }
 
     @Override

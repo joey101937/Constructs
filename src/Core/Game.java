@@ -65,7 +65,7 @@ public class Game extends Canvas implements Runnable {
         // while(testConstruct2.components.size() < 30){
         //   testConstruct2.components.get(Main.generateRandom(0, testConstruct2.components.size()-1)).connect(Main.generateRandom(0, 4), new ArmorBlock());
         // }
-         handler.constructs.add(Construct.generateRandomConstruct(new Coordinate(500,300), 30));
+         handler.constructs.add(Construct.generateRandomConstruct(new Coordinate(500,300), 50));
 
         
       
