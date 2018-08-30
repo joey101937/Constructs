@@ -9,6 +9,9 @@ import Constructs.Block;
 import Constructs.Projectile;
 import Core.Coordinate;
 import Core.Input;
+import Core.SpriteManager;
+import Core.Stickers.OnceThroughSticker;
+import Core.Stickers.Sticker;
 
 /**
  *
@@ -32,6 +35,7 @@ public class Cannonball extends Projectile{
                 System.out.println("damage on block " + b);
                 b2.takeDamage(damage);
             }
+            OnceThroughSticker s = new OnceThroughSticker(SpriteManager.explosionSequence,b.location,5000);
             this.destroy();
         }
     }

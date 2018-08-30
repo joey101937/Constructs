@@ -15,16 +15,24 @@ import javax.imageio.ImageIO;
  * @author Joseph
  */
 public abstract class SpriteManager {
+
+    public static boolean initialized = false;
+
     public static BufferedImage test;
     public static BufferedImage[] birdSequence;
-    public static boolean initialized = false;
-    
+    public static BufferedImage[] explosionSequence;
+
     public static void initialize(){
         try{
             test = load("checkmarkSmall.png");
-            birdSequence = new BufferedImage[8];
-            for(int i = 0; i < 8; i++){
+            birdSequence = new BufferedImage[9];
+            for(int i = 0; i < 9; i++){
                 birdSequence[i] = load("birdies"+i+".png");
+            }
+            explosionSequence = new BufferedImage[16];
+            for(int i = 0; i < 16; i++){
+                System.out.println("explosionSequence/tile0"+i+".png");
+                explosionSequence[i] = load("explosionSequence/tile0"+i+".png");
             }
             initialized=true;
         }catch(Exception e){

@@ -7,12 +7,10 @@ package Core;
  */
 
 
-import Core.Stickers.AnimatedSticker;
-import Core.Stickers.Sticker;
 import Constructs.Block;
 import Constructs.Blocks.CannonBlock;
 import Constructs.Construct;
-import Constructs.Projectile;
+import Core.Stickers.AnimatedSticker;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -63,11 +61,12 @@ public class Game extends Canvas implements Runnable {
          testBlock = new CannonBlock();
          testConstruct.orgin.connect(0, testBlock);
          
-         Construct testConstruct2 = new Construct(500,100);
+         Construct testConstruct2 = new Construct(500,300);
          handler.constructs.add(testConstruct2);
 
-         Sticker s = new Sticker(SpriteManager.test,new Coordinate(500,500),5000);
-         AnimatedSticker as = new AnimatedSticker(SpriteManager.birdSequence,new Coordinate(500,300),5000);
+        // Sticker s = new Sticker(SpriteManager.test,new Coordinate(500,500),5000);
+         //AnimatedSticker as = new AnimatedSticker(SpriteManager.birdSequence,new Coordinate(500,500),5000);
+      
     }
 
     //core tick, tells all game Objects to tick
