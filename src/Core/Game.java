@@ -33,6 +33,7 @@ public class Game extends Canvas implements Runnable {
     private boolean running = false;
     public BufferedImage backgroundImage;
     public static Handler handler = new Handler();
+    public static VisualEffectHandler visHandler = new VisualEffectHandler();
     public static int width, height;
     public Window window;
     public Input input;
@@ -59,12 +60,12 @@ public class Game extends Canvas implements Runnable {
          handler.constructs.add(testConstruct);
          testBlock = new CannonBlock();
          testConstruct.orgin.connect(0, testBlock);
-         testBlock.name = "1";  
          
          Construct testConstruct2 = new Construct(500,100);
          handler.constructs.add(testConstruct2);
-        // Projectile p = new Projectile(new Coordinate(300,300),new Coordinate(400,100));
-        // handler.storage.add(p);
+
+         Sticker s = new Sticker(SpriteManager.test,new Coordinate(500,500),5000);
+         AnimatedSticker as = new AnimatedSticker(SpriteManager.birdSequence,new Coordinate(500,300),5000);
     }
 
     //core tick, tells all game Objects to tick
@@ -93,8 +94,9 @@ public class Game extends Canvas implements Runnable {
 
         this.renderBackGround(g);
         handler.render(g2d);
+        visHandler.render(g2d);
         g.dispose();
-
+        
         bs.show();
     }
 

@@ -25,14 +25,16 @@ public class ArmorBlock extends Block{
        name = "armor block";
     }
 
-    
     @Override
-    public void render(Graphics2D g){
-         g.setColor(Color.gray);
-        g.fillRect(location.x - Block.BLOCK_WIDTH/2, location.y - Block.BLOCK_HEIGHT/2, Block.BLOCK_WIDTH, Block.BLOCK_HEIGHT);
+    public void render(Graphics2D g) {
+        double ratio = (double) health / (double) initialHealth;
+        int initialBrightness = 150;
+        Color toUse = new Color((int) (initialBrightness * ratio), (int) (initialBrightness * ratio), (int) (initialBrightness * ratio));
+        g.setColor(toUse);
+        g.fillRect(location.x - Block.BLOCK_WIDTH / 2, location.y - Block.BLOCK_HEIGHT / 2, Block.BLOCK_WIDTH, Block.BLOCK_HEIGHT);
         g.setColor(Color.black);
-         g.drawRect(location.x - Block.BLOCK_WIDTH/2, location.y - Block.BLOCK_HEIGHT/2, Block.BLOCK_WIDTH, Block.BLOCK_HEIGHT);
+        g.drawRect(location.x - Block.BLOCK_WIDTH / 2, location.y - Block.BLOCK_HEIGHT / 2, Block.BLOCK_WIDTH, Block.BLOCK_HEIGHT);
         renderLinks(g);
     }
-    
+
 }

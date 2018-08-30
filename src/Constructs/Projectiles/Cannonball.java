@@ -8,6 +8,7 @@ package Constructs.Projectiles;
 import Constructs.Block;
 import Constructs.Projectile;
 import Core.Coordinate;
+import Core.Input;
 
 /**
  *
@@ -27,7 +28,11 @@ public class Cannonball extends Projectile{
         if(b.parent==this.parent.parent && parent!=null){
             return; //dont affect out own construct's blocks
         }else{
-            super.collide(b);
+            for(Block b2 : Input.getNearbyBlocks(b.location, 30)){
+                System.out.println("damage on block " + b);
+                b2.takeDamage(damage);
+            }
+            this.destroy();
         }
     }
     

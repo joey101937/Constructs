@@ -27,6 +27,7 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        SpriteManager.initialize();
         Game game = new Game();
     }
 
@@ -128,5 +129,13 @@ public class Main {
             e.printStackTrace();
         }
         return output;
+    }
+    
+    public static void wait(int time){
+        try{
+            Thread.sleep(time);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 }

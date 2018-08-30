@@ -39,6 +39,13 @@ public abstract class Block extends GameObject{
         super(0,0);
     }
     
+    public void takeDamage(int amount){
+        health-=amount;
+        if(health<=0){
+            destroy();
+        }
+    }
+    
     /**
      * connection to use when adding a block straight to another block
      * @param initialConnection block we attatch to

@@ -36,6 +36,8 @@ public class CannonBlock extends Block implements ShootingBlock{
         g.setColor(Color.black);
          g.drawRect(location.x - Block.BLOCK_WIDTH/2, location.y - Block.BLOCK_HEIGHT/2, Block.BLOCK_WIDTH, Block.BLOCK_HEIGHT);
         renderLinks(g);
+        g.setColor(Color.white);
+        g.drawString("C", location.x, location.y);
     }
 
     @Override

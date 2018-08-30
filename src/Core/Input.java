@@ -15,6 +15,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 /**
  *
@@ -47,8 +48,14 @@ public class Input implements KeyListener, MouseListener{
                // System.out.println("projectile test");
                 //Projectile p = new Projectile(new Coordinate(300, 300), new Coordinate(e.getX(), e.getY()));
                // handler.storage.add(p);
-               CannonBlock cb = (CannonBlock)Game.testBlock;
-               cb.shootAt(new Coordinate(e.getX(),e.getY()));
+               for(Block b : Game.testConstruct.components){
+                   if(b.name.equals("Cannon block")){
+                       CannonBlock cb = (CannonBlock)b;
+                       cb.shootAt(new Coordinate(e.getX(), e.getY()));
+                   }
+               }
+               //CannonBlock cb = (CannonBlock)Game.testBlock;
+               //cb.shootAt(new Coordinate(e.getX(),e.getY()));
             }
         }
     }
@@ -221,4 +228,22 @@ public class Input implements KeyListener, MouseListener{
         return closest;
    }
 
+   /**
+    * returns all blocks within given distance from given coordinate
+    * @param point center point
+    * @param distance max distance from the center a block must be to be counted
+    * @return All blocks in area
+    */
+   public static ArrayList<Block> getNearbyBlocks(Coordinate point, int distance){
+       ArrayList<Block> output = new ArrayList<>();
+       for(Construct c : Game.handler.constructs){
+           for(Block b : c.components){
+               if(b.location.distanceFrom(point)<=distance){
+                   output.add(b);
+               }
+           }
+       }
+       return output;
+   }
+   
 }

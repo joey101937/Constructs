@@ -10,6 +10,7 @@ import Core.Coordinate;
 import Constructs.Blocks.OriginBlock;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 
@@ -23,6 +24,7 @@ public class Construct {
     public Orientation orientation = Orientation.Up;
     public int velX, velY; //velocity of construct
     public int topY, botY, rightX, leftX; //topmost block's y coord, bottom most block's y, rightmost block's x and leftmost block's x. used for bounds
+    public Rectangle collisionBox = new Rectangle();
     public void addBlock(Block b){
         if(!components.contains(b))components.add(b);
         b.parent=this;
@@ -64,7 +66,40 @@ public class Construct {
     }
 
     public void tick() {
-        for(Block b : components){
+        boolean colliding = false;
+        Construct collision = null;
+        for(Construct c : Game.handler.constructs){
+            if(c==this)continue;
+            if(c.collisionBox.intersects(collisionBox)){
+                colliding = true;
+                collision = c;
+                System.out.println("collision");
+                break;
+            }
+        }
+        if (colliding) {
+            if (collision.getLocation().x > getLocation().x && velX > 0) {
+                realign();
+                return;
+            }
+            if (collision.getLocation().x < getLocation().x && velX < 0) {
+                realign();
+                return;
+            }
+            if (collision.getLocation().y > getLocation().y && velY > 0) {
+                realign();
+                return;
+            }
+            if (collision.getLocation().y < getLocation().y && velY < 0) {
+                realign();
+                return;
+            }
+        }
+        adjustPositionForVelocity();
+    }
+    
+    public void adjustPositionForVelocity(){
+         for(Block b : components){
             if(velX < 0){
                 if(getCenter().x+leftX<=0){
                     realign();
@@ -90,7 +125,7 @@ public class Construct {
             b.velX = velX;
             b.velY = velY;
             b.tick();
-        }
+        } 
     }
     
     public Coordinate getLocation(){
@@ -196,6 +231,8 @@ public class Construct {
         botY = bot ;
         leftX = left ;
         rightX = right ;
+        int[] bounds = this.getBounds();
+        collisionBox.setBounds(bounds[0], bounds[1], bounds[2], bounds[3]);
     }
     
     /**

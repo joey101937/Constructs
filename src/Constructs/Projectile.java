@@ -12,6 +12,7 @@ import Core.GameObject;
 import Core.Input;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 
 /**
  *
@@ -24,6 +25,7 @@ public class Projectile extends GameObject{
     public double realVelY = 0.0;
     public DCoordinate realLocation;
     public Block parent = null; //block that created this projectile, if exists
+    public int damage = 2;
     /**
      * Creates a projectile at a given coordinate, traveling at a specified angle
      */
@@ -64,6 +66,7 @@ public class Projectile extends GameObject{
     public void render(Graphics2D g) {
         g.setColor(Color.red);
         g.fillOval(location.x - Block.BLOCK_WIDTH/4, location.y-Block.BLOCK_HEIGHT/4, Block.BLOCK_WIDTH/2, Block.BLOCK_WIDTH/2);
+        Rectangle r = new Rectangle();
     }
     
     @Override
@@ -87,7 +90,7 @@ public class Projectile extends GameObject{
     }
     
     public void collide(Block b) {
-        b.destroy();
+        b.takeDamage(damage);
         this.destroy();
     }
 }
