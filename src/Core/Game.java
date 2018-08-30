@@ -61,6 +61,8 @@ public class Game extends Canvas implements Runnable {
          testConstruct.orgin.connect(0, testBlock);
          testBlock.name = "1";  
          
+         Construct testConstruct2 = new Construct(500,100);
+         handler.constructs.add(testConstruct2);
         // Projectile p = new Projectile(new Coordinate(300,300),new Coordinate(400,100));
         // handler.storage.add(p);
     }

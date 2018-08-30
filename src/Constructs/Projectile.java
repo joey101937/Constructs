@@ -10,6 +10,7 @@ import Core.DCoordinate;
 import Core.Game;
 import Core.GameObject;
 import Core.Input;
+import java.awt.Color;
 import java.awt.Graphics2D;
 
 /**
@@ -19,15 +20,26 @@ import java.awt.Graphics2D;
 public class Projectile extends GameObject{
     public double slope; //projectile travels in a line with this slope 
     public int lifeTime = 500; //how many ticks this projectile has before it is destroyed automatically
-    public double realVelX = 1.0;
+    public double realVelX = 0.0;
     public double realVelY = 0.0;
     public DCoordinate realLocation;
+    public Block parent = null; //block that created this projectile, if exists
     /**
      * Creates a projectile at a given coordinate, traveling at a specified angle
      */
     public Projectile(Coordinate spawnLocation, Coordinate targetPoint) {
         super(spawnLocation.x, spawnLocation.y);
         realLocation = new DCoordinate(location);
+        launch(targetPoint);
+    }
+    
+    public Projectile(Coordinate spawnLocation){
+        super(spawnLocation.x,spawnLocation.y);
+        realLocation = new DCoordinate(location);
+    }
+    
+
+    public void launch(Coordinate targetPoint) {
         speed = 3;
         double rise, run;
         run = Math.abs(targetPoint.x - location.x);
@@ -46,12 +58,12 @@ public class Projectile extends GameObject{
         if (targetPoint.y < location.y) {
             realVelY *= -1;
         }
-
     }
 
     @Override
     public void render(Graphics2D g) {
-      g.fillOval(location.x-Block.BLOCK_WIDTH/4, location.y-Block.BLOCK_HEIGHT/4, Block.BLOCK_WIDTH/2, Block.BLOCK_WIDTH/2);
+        g.setColor(Color.red);
+        g.fillOval(location.x - Block.BLOCK_WIDTH/4, location.y-Block.BLOCK_HEIGHT/4, Block.BLOCK_WIDTH/2, Block.BLOCK_WIDTH/2);
     }
     
     @Override
@@ -70,8 +82,12 @@ public class Projectile extends GameObject{
         adjustPositionForVelocity();
         Block b = Input.getBlockAt(location.x, location.y);
         if(b !=null){
-            b.destroy();
-            this.destroy();
+           collide(b);
         }
+    }
+    
+    public void collide(Block b) {
+        b.destroy();
+        this.destroy();
     }
 }

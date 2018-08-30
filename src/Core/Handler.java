@@ -21,13 +21,13 @@ public class Handler {
 
     public LinkedList<GameObject> storage = new LinkedList<>();
     public LinkedList<Construct> constructs = new LinkedList<>();
-    
+
     public void render(Graphics2D g) {
+        for (Construct c : constructs) {
+            c.render(g);
+        }
         for (GameObject go : storage) {
             go.render(g);
-        }
-        for(Construct c : constructs){
-            c.render(g);
         }
     }
 

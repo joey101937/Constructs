@@ -9,9 +9,8 @@ package Core;
 
 import Constructs.Block;
 import Constructs.Blocks.ArmorBlock;
+import Constructs.Blocks.CannonBlock;
 import Constructs.Construct;
-import Constructs.Projectile;
-import static Core.Game.handler;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -45,9 +44,11 @@ public class Input implements KeyListener, MouseListener{
         } else if (e.getButton() == 1) {
             if (!attemptToBuild(e.getX(), e.getY())) { 
                 //if we didnt build a block with the click, continue with projectile testing
-                System.out.println("projectile test");
-                Projectile p = new Projectile(new Coordinate(300, 300), new Coordinate(e.getX(), e.getY()));
-                handler.storage.add(p);
+               // System.out.println("projectile test");
+                //Projectile p = new Projectile(new Coordinate(300, 300), new Coordinate(e.getX(), e.getY()));
+               // handler.storage.add(p);
+               CannonBlock cb = (CannonBlock)Game.testBlock;
+               cb.shootAt(new Coordinate(e.getX(),e.getY()));
             }
         }
     }
@@ -59,6 +60,7 @@ public class Input implements KeyListener, MouseListener{
      */
     private static boolean attemptToBuild(int x, int y) {
         Block closest = Input.nearestBlock(x, y);
+        if(closest == null)return false;
         int requiredProximity = 60;
         if (Coordinate.distanceBetween(new Coordinate(x, y), closest.location) <= requiredProximity) {
             System.out.println("close");

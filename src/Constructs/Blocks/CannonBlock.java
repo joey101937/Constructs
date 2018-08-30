@@ -6,6 +6,10 @@
 package Constructs.Blocks;
 
 import Constructs.Block;
+import Constructs.Projectile;
+import Constructs.Projectiles.Cannonball;
+import Core.Coordinate;
+import Core.Game;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
@@ -13,7 +17,7 @@ import java.awt.Graphics2D;
  *
  * @author Joseph
  */
-public class CannonBlock extends Block{
+public class CannonBlock extends Block implements ShootingBlock{
      public CannonBlock(int x, int y) {
         super(x, y);
          name = "Cannon block";
@@ -32,5 +36,19 @@ public class CannonBlock extends Block{
         g.setColor(Color.black);
          g.drawRect(location.x - Block.BLOCK_WIDTH/2, location.y - Block.BLOCK_HEIGHT/2, Block.BLOCK_WIDTH, Block.BLOCK_HEIGHT);
         renderLinks(g);
+    }
+
+    @Override
+    public Projectile getProjectile() {
+        Projectile output = new Cannonball(location);
+        output.parent = this;
+        return output;
+    }
+
+    @Override
+    public void shootAt(Coordinate targetPoint) {
+        Projectile p = getProjectile();
+        p.launch(targetPoint);
+        Game.handler.storage.add(p);
     }
 }
