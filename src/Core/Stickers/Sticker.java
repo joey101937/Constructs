@@ -30,7 +30,7 @@ public class Sticker implements Runnable{
      */
     public Sticker(BufferedImage i, Coordinate c, int duration){
         image = i;
-        spawnLocation = c; //where we want the sticker
+        spawnLocation = new Coordinate(c);//where we want the sticker
         timeToRender = duration; //topleft location of sticker used to put center on spawnLocation
         Game.visHandler.stickers.add(this);
         Thread t = new Thread(this);

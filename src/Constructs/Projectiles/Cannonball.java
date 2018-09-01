@@ -39,5 +39,9 @@ public class Cannonball extends Projectile{
             this.destroy();
         }
     }
-    
+    @Override
+    public void tick(){
+        super.tick();
+       // realVelY+=.1; //gravity for firing arch if desired
+    }
 }

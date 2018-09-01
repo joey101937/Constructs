@@ -7,6 +7,10 @@ package Constructs;
 
 import Core.GameObject;
 import Core.Coordinate;
+import Core.Main;
+import Core.SpriteManager;
+import Core.Stickers.OnceThroughSticker;
+import Core.Stickers.Sticker;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -78,7 +82,6 @@ public abstract class Block extends GameObject{
     }
     
     public void onDestruction(){
-        
     }
     
     /**

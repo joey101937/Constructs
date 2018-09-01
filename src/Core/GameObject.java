@@ -42,16 +42,16 @@ public abstract class GameObject {
     public void adjustPositionForVelocity() {
         for (int i = 0; i < Math.abs(velX); i++) {
             if (velX < 0) {
-                location.x--;
+                location.x-=speed;
             } else if (velX > 0) {
-                location.x++;
+                location.x+=speed;
             }
         }
         for (int i = 0; i < Math.abs(velY); i++) {
             if (velY < 0) {
-                location.y--;
+                location.y-=speed;
             } else if (velY > 0) {
-                location.y++;
+                location.y+=speed;
             }
         }
         location.x = Main.clamp(location.x, Game.width - width / 2, 0);

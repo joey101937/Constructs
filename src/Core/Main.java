@@ -110,7 +110,7 @@ public class Main {
             return generateRandom(max, min);
         } else {
             //here is the body of our method
-            int diff = max - min;
+            int diff = max + 1- min; //add one to make max a possiblity
             int output = (int) (Math.random() * diff); //generates a random number between 0 and the difference between the numbers
             return (min + output);                //returns that random number plus the min
         }

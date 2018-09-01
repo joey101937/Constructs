@@ -6,10 +6,14 @@
 package Constructs;
 
 import Constructs.Blocks.ArmorBlock;
+import Constructs.Blocks.CannonBlock;
 import Core.Game;
 import Core.Coordinate;
 import Constructs.Blocks.OriginBlock;
 import Core.Main;
+import Core.SpriteManager;
+import Core.Stickers.OnceThroughSticker;
+import Core.Stickers.Sticker;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -27,12 +31,24 @@ public class Construct {
     public int velX, velY; //velocity of construct
     public int topY, botY, rightX, leftX; //topmost block's y coord, bottom most block's y, rightmost block's x and leftmost block's x. used for bounds
     public Rectangle collisionBox = new Rectangle();
+    private int speed =1;
     public void addBlock(Block b){
         if(!components.contains(b))components.add(b);
         b.parent=this;
         System.out.println("adding block at relative: " + b.relativeLocation);
         System.out.println("construct now has " + components.size() + " blocks");
         updateBounds();
+    }
+    
+    public void setSpeed(int i){
+        speed = i;
+        for(Block b : components){
+            b.speed=i;
+        }
+    }
+    
+    public int getSpeed(){
+        return speed;
     }
     
     public Construct(int x, int y){
@@ -174,14 +190,29 @@ public class Construct {
     //removes construct from game
     public void destroy(){
         System.out.println("destroy construct");
-        for(Block b : components){
+        for (Block b : components) {
+            if (Main.generateRandom(0, 2) > 1) {
+                System.out.println("test");
+                Sticker s = new OnceThroughSticker(SpriteManager.explosionSequence, b.location, 5000);
+            }
             b.onDestruction();
+
         }
-        while(Game.handler.constructs.contains(this)){
-            try{
-            Game.handler.constructs.remove(this);
+
+        while (Game.handler.constructs.contains(this)) {
+            try {
+                Game.handler.constructs.remove(this);
             }catch(ConcurrentModificationException cme){
                 System.out.println("cme while removing construct");
+            }
+        }
+    }
+    
+    public void shootAt(Coordinate c){
+        for(Block b : components){
+            if(b.name.equals("Cannon block")){
+                CannonBlock cb = (CannonBlock)b;
+                cb.shootAt(c);
             }
         }
     }

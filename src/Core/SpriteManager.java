@@ -31,7 +31,6 @@ public abstract class SpriteManager {
             }
             explosionSequence = new BufferedImage[16];
             for(int i = 0; i < 16; i++){
-                System.out.println("explosionSequence/tile0"+i+".png");
                 explosionSequence[i] = load("explosionSequence/tile0"+i+".png");
             }
             initialized=true;

@@ -50,8 +50,7 @@ public class Input implements KeyListener, MouseListener{
                // handler.storage.add(p);
                for(Block b : Game.testConstruct.components){
                    if(b.name.equals("Cannon block")){
-                       CannonBlock cb = (CannonBlock)b;
-                       cb.shootAt(new Coordinate(e.getX(), e.getY()));
+                       Game.testConstruct.shootAt(new Coordinate(e.getX(),e.getY()));
                    }
                }
                //CannonBlock cb = (CannonBlock)Game.testBlock;

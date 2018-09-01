@@ -33,6 +33,7 @@ public class Window {
         frame.setMaximumSize(d);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+        frame.requestFocus();
         g.start();
     }
 }
