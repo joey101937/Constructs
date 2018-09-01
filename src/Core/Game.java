@@ -43,8 +43,8 @@ public class Game extends Canvas implements Runnable {
     
     public Game() {
         mainGame = this;
-        this.width = 700;
-        this.height = 700;
+        this.width = 1280;
+        this.height = 720;
         window = new Window(this);
         Setup();
         input = new Input(this);
@@ -113,7 +113,7 @@ public class Game extends Canvas implements Runnable {
     public void renderBackGround(Graphics g) {
         try {
             if (backgroundImage == null) {
-                backgroundImage = ImageIO.read(new File(Main.getDir() + Main.assets + "Platformbg.png"));
+                backgroundImage = ImageIO.read(new File(Main.getDir() + Main.assets + "spacebg.png"));
             }
             g.drawImage(backgroundImage, 0, 0, null);
         } catch (Exception e) {

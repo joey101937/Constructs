@@ -32,9 +32,11 @@ public class Construct {
     public int topY, botY, rightX, leftX; //topmost block's y coord, bottom most block's y, rightmost block's x and leftmost block's x. used for bounds
     public Rectangle collisionBox = new Rectangle();
     private int speed =1;
+    
     public void addBlock(Block b){
         if(!components.contains(b))components.add(b);
         b.parent=this;
+        b.speed=getSpeed();
         System.out.println("adding block at relative: " + b.relativeLocation);
         System.out.println("construct now has " + components.size() + " blocks");
         updateBounds();

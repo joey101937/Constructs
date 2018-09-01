@@ -24,7 +24,7 @@ public class Window {
     
     public Window(Game g){
         frame = new JFrame(title);
-        Dimension d = new Dimension(720,740);
+        Dimension d = new Dimension(1280+20,720 + 40); //add to dimensions of pic so the bounds are in frame
         g.setBounds(0, 0, g.width, g.height);
         panel.setSize(d);
         panel.add(g);
