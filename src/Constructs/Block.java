@@ -30,6 +30,8 @@ public abstract class Block extends GameObject{
     public Block[] connected = new Block[4];
     public Orientation orientation = Orientation.Up;
     public Construct parent; //what construct this block is a part of
+    public double fireInterval = 0.3; //how long a combat block will wait between firing IN SECONDS
+    public boolean readyToFire = true;
     //Gameplay fields
     public int health = 10;
     public int initialHealth = 10;
@@ -81,8 +83,7 @@ public abstract class Block extends GameObject{
         if(parent!=null)parent.removeDetached();
     }
     
-    public void onDestruction(){
-    }
+ 
     
     /**
      * Connects a block to this one
@@ -200,4 +201,39 @@ public abstract class Block extends GameObject{
         g.setColor(original);
     }
     
+    /////////////////////////////////////gameplay methods
+    public Projectile getProjectile(){
+        return null;
+    }
+    
+    public void shootAt(Coordinate point){
+    }
+    
+    public void beginReload(){
+        readyToFire=false;
+        new reloadHelper(this);
+    }
+    
+    public void onConnect(){
+        //run after parent accepts the new block
+    }
+
+    public void onDestruction() {
+    }
+    
+    public class reloadHelper implements Runnable{
+        public Block host;
+        public reloadHelper(Block host){
+            this.host=host;
+            Thread t = new Thread(this);
+            t.start();
+        }
+        @Override
+        public void run() {
+            Main.wait((int)(host.fireInterval*1000));
+            host.readyToFire=true;
+        }
+        
+    }
+   
 }

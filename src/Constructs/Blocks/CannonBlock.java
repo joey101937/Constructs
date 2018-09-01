@@ -17,7 +17,7 @@ import java.awt.Graphics2D;
  *
  * @author Joseph
  */
-public class CannonBlock extends Block implements ShootingBlock{
+public class CannonBlock extends Block{
      public CannonBlock(int x, int y) {
         super(x, y);
          name = "Cannon block";
@@ -49,8 +49,10 @@ public class CannonBlock extends Block implements ShootingBlock{
 
     @Override
     public void shootAt(Coordinate targetPoint) {
+        if(!readyToFire)return;
         Projectile p = getProjectile();
         p.launch(targetPoint);
         Game.handler.storage.add(p);
+        beginReload();
     }
 }

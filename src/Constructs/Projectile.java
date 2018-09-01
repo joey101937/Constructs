@@ -26,6 +26,7 @@ public class Projectile extends GameObject{
     public DCoordinate realLocation;
     public Block parent = null; //block that created this projectile, if exists
     public int damage = 2;
+    private Coordinate target = new Coordinate(0,0);
     /**
      * Creates a projectile at a given coordinate, traveling at a specified angle
      */
@@ -43,6 +44,7 @@ public class Projectile extends GameObject{
 
     public void launch(Coordinate targetPoint) {
         speed = 3;
+        target = targetPoint;
         double rise, run;
         run = Math.abs(targetPoint.x - location.x);
         rise = Math.abs(targetPoint.y - location.y);
@@ -60,6 +62,14 @@ public class Projectile extends GameObject{
         if (targetPoint.y < location.y) {
             realVelY *= -1;
         }
+    }
+    /**
+     * Scales projectile speed be this much
+     * @param i multiplier
+     */
+    public void scaleSpeed(double i){
+        realVelX *= i;
+        realVelY *= i;
     }
 
     @Override

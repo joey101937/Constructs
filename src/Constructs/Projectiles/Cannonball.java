@@ -21,9 +21,11 @@ public class Cannonball extends Projectile{
     
     public Cannonball(Coordinate spawnLocation, Coordinate targetPoint) {
         super(spawnLocation, targetPoint);
+        scaleSpeed(.5);
     }
     public Cannonball(Coordinate spawnLocation){
         super(spawnLocation);
+        scaleSpeed(.5);
     }
     
     @Override

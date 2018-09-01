@@ -11,6 +11,7 @@ import Constructs.Block;
 import Constructs.Blocks.ArmorBlock;
 import Constructs.Blocks.CannonBlock;
 import Constructs.Construct;
+import Constructs.ConstructAI;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -56,21 +57,20 @@ public class Game extends Canvas implements Runnable {
      * use this method to set starting objects etc
      */
     public void Setup() {
-         testConstruct = new Construct(100,100);
+         testConstruct = new Construct(100,250);
          handler.constructs.add(testConstruct);
          testBlock = new CannonBlock();
          testConstruct.orgin.connect(0, testBlock);
          ArmorBlock ab = new ArmorBlock();
          testBlock.connect(0, ab);
          ab.connect(0,new CannonBlock());
-         testConstruct.setSpeed(3);
-         //Construct testConstruct2 = new Construct(500,300);
-        // while(testConstruct2.components.size() < 30){
-        //   testConstruct2.components.get(Main.generateRandom(0, testConstruct2.components.size()-1)).connect(Main.generateRandom(0, 4), new ArmorBlock());
-        // }
-         handler.constructs.add(Construct.generateRandomConstruct(new Coordinate(450,300), 50));
-
-        
+         testConstruct.setSpeed(4);
+         testConstruct.generateFiller(10);
+          ab.connect(0,new CannonBlock());
+        Construct testOpponent = Construct.generateRandomConstruct(new Coordinate(650,300),50);
+         handler.constructs.add(testOpponent);
+         ConstructAI cAI = new ConstructAI(testOpponent);
+        testOpponent.ai = cAI;
       
     }
 

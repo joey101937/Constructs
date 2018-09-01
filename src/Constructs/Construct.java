@@ -31,12 +31,14 @@ public class Construct {
     public int velX, velY; //velocity of construct
     public int topY, botY, rightX, leftX; //topmost block's y coord, bottom most block's y, rightmost block's x and leftmost block's x. used for bounds
     public Rectangle collisionBox = new Rectangle();
+    public ConstructAI ai = null;
     private int speed =1;
     
     public void addBlock(Block b){
         if(!components.contains(b))components.add(b);
         b.parent=this;
         b.speed=getSpeed();
+        b.onConnect();
         System.out.println("adding block at relative: " + b.relativeLocation);
         System.out.println("construct now has " + components.size() + " blocks");
         updateBounds();
@@ -53,6 +55,17 @@ public class Construct {
         return speed;
     }
     
+   /**
+    * randomly adds a x number of basic armor blocks to the construct
+    * @param numBlocks 
+    */
+    public void generateFiller(int numBlocks){
+        int goal = components.size() + numBlocks;
+        while(components.size() < goal){
+            components.get(Main.generateRandom(0, components.size()-1)).connect(Main.generateRandom(0, 4), new ArmorBlock());
+        }
+    }
+    
     public Construct(int x, int y){
         orgin = new OriginBlock(x,y);
         this.addBlock(orgin);
@@ -60,8 +73,13 @@ public class Construct {
     
     public static Construct generateRandomConstruct(Coordinate location, int numBlocks){
         Construct output = new Construct(location.x,location.y);
+        int numWeapons = 0;
         while(output.components.size() < numBlocks){
              output.components.get(Main.generateRandom(0, output.components.size()-1)).connect(Main.generateRandom(0, 4), new ArmorBlock());
+             if(Main.generateRandom(0, 7)>6 && numWeapons < 3){
+                 output.components.get(Main.generateRandom(0, output.components.size()-1)).connect(Main.generateRandom(0, 4), new CannonBlock());
+                 numWeapons++;
+             }
          }
         return output;
     }
@@ -124,6 +142,9 @@ public class Construct {
         }
         adjustPositionForVelocity();
         updateBounds();
+        if(ai!=null){
+            ai.tick();
+        }
     }
     
     public void adjustPositionForVelocity(){
@@ -212,10 +233,7 @@ public class Construct {
     
     public void shootAt(Coordinate c){
         for(Block b : components){
-            if(b.name.equals("Cannon block")){
-                CannonBlock cb = (CannonBlock)b;
-                cb.shootAt(c);
-            }
+            b.shootAt(c);
         }
     }
     
